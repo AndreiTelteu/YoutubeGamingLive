@@ -12,14 +12,15 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.65",
+        "laravel/horizon": "^5.7",
         "laravel/octane": "^1.0",
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
         "madcoda/php-youtube-api": "^1.2",
-        "socialiteproviders/youtube": "^4.1",
-        "onlinedigital/pubsubhubbub-php-subscriber": "dev-master"
+        "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
+        "socialiteproviders/youtube": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
