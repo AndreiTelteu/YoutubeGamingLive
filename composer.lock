@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "391c00689507d5fd2b17faafbe1ffbe3",
+    "content-hash": "52b172ac95df8f714183943813d5e7e1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2495,6 +2495,56 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.2"
             },
             "time": "2021-11-30T19:35:32+00:00"
+        },
+        {
+            "name": "onlinedigital/pubsubhubbub-php-subscriber",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OnlineDigital/pubsubhubbub-php-subscriber.git",
+                "reference": "61ff5e9e0ebef36e6b2be907e7534c1bd7d24fd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OnlineDigital/pubsubhubbub-php-subscriber/zipball/61ff5e9e0ebef36e6b2be907e7534c1bd7d24fd2",
+                "reference": "61ff5e9e0ebef36e6b2be907e7534c1bd7d24fd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "> 7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pubsubhubbub\\Subscriber\\": "src/"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "pubsubhubbub subscriber Contributors",
+                    "homepage": "https://github.com/pubsubhubbub/php-subscriber/contributors"
+                },
+                {
+                    "name": "AndreiTelteu @ OnlineDigital",
+                    "homepage": "https://github.com/OnlineDigital/pubsubhubbub-php-subscriber"
+                }
+            ],
+            "description": "pubsubhubbub implementation of subscriber.",
+            "homepage": "https://github.com/pubsubhubbub/php-subscriber",
+            "keywords": [
+                "data",
+                "feeds",
+                "pubsubhubbub",
+                "subscribers"
+            ],
+            "support": {
+                "source": "https://github.com/OnlineDigital/pubsubhubbub-php-subscriber/tree/master"
+            },
+            "time": "2021-12-11T22:08:04+00:00"
         },
         {
             "name": "opis/closure",
@@ -8513,7 +8563,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "onlinedigital/pubsubhubbub-php-subscriber": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

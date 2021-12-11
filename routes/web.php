@@ -46,3 +46,19 @@ Route::get("/youtube/callback", function () {
     );
     dump($subs);
 });
+
+Route::get("/youtube/subscribe", function () {
+    $pubsub = new \Pubsubhubbub\Subscriber\Subscriber(
+        "https://pubsubhubbub.appspot.com",
+        "https://youtubegaming.live/youtube/webhook"
+    );
+
+    $sub = $pubsub->subscribe(
+        "https://www.youtube.com/xml/feeds/videos.xml?channel_id=UCWxlUwW9BgGISaakjGM37aw"
+    );
+});
+
+Route::get("/youtube/webhook", function () {
+    echo request()->hub_challenge;
+    logger()->debug("dada youtube hook call " . json_encode(request()->all()));
+});

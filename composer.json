@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -15,7 +18,8 @@
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
         "madcoda/php-youtube-api": "^1.2",
-        "socialiteproviders/youtube": "^4.1"
+        "socialiteproviders/youtube": "^4.1",
+        "onlinedigital/pubsubhubbub-php-subscriber": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -32,6 +36,12 @@
             "Database\\Seeders\\": "database/seeders/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/OnlineDigital/pubsubhubbub-php-subscriber"
+        }
+    ],
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
