@@ -14,6 +14,7 @@
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
+        "madcoda/php-youtube-api": "^1.2",
         "socialiteproviders/youtube": "^4.1"
     },
     "require-dev": {
