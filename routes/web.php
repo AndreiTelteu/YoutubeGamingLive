@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/", function () {
+    return redirect("/f");
+});
+
+Route::get("/dada", function () {
     $result = new \WhichBrowser\Parser(request()->header("User-Agent"));
     $device =
         $result->browser->name .
@@ -21,7 +25,8 @@ Route::get("/", function () {
         $result->browser->version->toNumber() .
         " on " .
         $result->os->toString();
-    echo "Device: $device";
+    $country = request()->header("CF-IPCountry");
+    echo "Device: $device from $country";
 
     return view("welcome");
 });
