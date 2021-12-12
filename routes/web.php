@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/", function () {
+    $result = new \WhichBrowser\Parser(request()->header("User-Agent"));
+    $device =
+        $result->browser->name .
+        " " .
+        $result->browser->version->toNumber() .
+        " on " .
+        $result->os->toString();
+    echo "Device: $device";
+
     return view("welcome");
 });
 

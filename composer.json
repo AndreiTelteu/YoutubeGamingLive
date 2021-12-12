@@ -14,13 +14,14 @@
         "laravel/framework": "^8.65",
         "laravel/horizon": "^5.7",
         "laravel/octane": "^1.0",
-        "laravel/sanctum": "^2.11",
+        "laravel/sanctum": "^2.12",
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
         "madcoda/php-youtube-api": "^1.2",
         "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
-        "socialiteproviders/youtube": "^4.1"
+        "socialiteproviders/youtube": "^4.1",
+        "whichbrowser/parser": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
