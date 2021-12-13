@@ -13,6 +13,14 @@ const routes = [
         component: () =>
             import(/* webpackChunkName: "browse" */ "@/views/Browse.vue"),
     },
+    {
+        path: "/subscriptions",
+        name: "Subscriptions",
+        component: () =>
+            import(
+                /* webpackChunkName: "subscriptions" */ "@/views/Subscriptions.vue"
+            ),
+    },
 ];
 
 const router = createRouter({

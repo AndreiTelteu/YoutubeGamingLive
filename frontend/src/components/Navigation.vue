@@ -38,6 +38,9 @@ export default {
         <v-divider inset vertical></v-divider>
         <v-btn to="/" class="ml-3">Home</v-btn>
         <v-btn to="/browse" class="ml-3">Browse</v-btn>
+        <v-btn to="/subscriptions" class="ml-3" v-if="auth.logged == true">
+            Subscriptions
+        </v-btn>
 
         <v-spacer></v-spacer>
         <v-btn
