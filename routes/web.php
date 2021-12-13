@@ -38,27 +38,56 @@ Route::get("/youtube/login", function () {
 });
 
 Route::get("/youtube/callback", function () {
-    $user = \Socialite::driver("youtube")
-        ->stateless()
-        ->user();
-    dump([
-        "id" => $user->id,
-        "name" => $user->nickname,
-        "avatar" => $user->avatar,
-        "all" => $user,
-    ]);
-    $subs = Youtube::decodeList(
-        Youtube::api_get(
-            "https://youtube.googleapis.com/youtube/v3/subscriptions",
-            [
-                "part" => "snippet",
-                "channelId" => $user->id,
-                // "channelId" => "UCgb_d0gAPFJjNO0QDAM6pbg",
-                "maxResults" => 50,
-            ]
-        )
-    );
-    dump($subs);
+    $social = null;
+    try {
+        $social = @\Socialite::driver("youtube")
+            ->stateless()
+            ->user();
+    } catch (\Exception $e) {
+    }
+
+    $auth = [
+        "logged" => false,
+    ];
+    if ($social !== null) {
+        $user = \App\Models\User::where("youtube_id", $social->id)->first();
+        if (!$user) {
+            $user = new \App\Models\User();
+        }
+        $user->youtube_id = $social->id;
+        $user->name = $social->nickname;
+        $user->avatar = $social->avatar;
+        $user->save();
+
+        $result = new \WhichBrowser\Parser(request()->header("User-Agent"));
+        $device =
+            $result->browser->name .
+            " " .
+            $result->browser->version->toNumber() .
+            " on " .
+            $result->os->toString();
+        $country = request()->header("CF-IPCountry");
+        $token = $user->createToken("$device from $country");
+
+        $auth = [
+            "logged" => true,
+            "user" => $user,
+            "token" => $token->plainTextToken,
+        ];
+    }
+    return view("youtube.callback", compact("auth"));
+    // $subs = Youtube::decodeList(
+    //     Youtube::api_get(
+    //         "https://youtube.googleapis.com/youtube/v3/subscriptions",
+    //         [
+    //             "part" => "snippet",
+    //             "channelId" => $social->id,
+    //             // "channelId" => "UCgb_d0gAPFJjNO0QDAM6pbg",
+    //             "maxResults" => 50,
+    //         ]
+    //     )
+    // );
+    // dump($subs);
 });
 
 Route::get("/youtube/subscribe", function () {

@@ -1,6 +1,7 @@
 <script>
 import Sidebar from "@/components/Sidebar";
 import Navigation from "@/components/Navigation";
+
 export default {
     name: "Youtube Gaming Live",
     components: {

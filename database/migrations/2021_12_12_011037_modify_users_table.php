@@ -13,8 +13,14 @@ class ModifyUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
+        Schema::table("users", function (Blueprint $table) {
+            $table->dropColumn("email");
+            $table->dropColumn("email_verified_at");
+            $table->dropColumn("password");
+            $table->dropColumn("remember_token");
+
+            $table->string("youtube_id");
+            $table->string("avatar");
         });
     }
 
@@ -25,7 +31,7 @@ class ModifyUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table("users", function (Blueprint $table) {
             //
         });
     }
