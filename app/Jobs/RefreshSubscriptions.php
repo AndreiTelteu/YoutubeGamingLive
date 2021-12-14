@@ -74,13 +74,16 @@ class RefreshSubscriptions implements ShouldQueue
             )->first();
             if (!$channel) {
                 $channel = new Channel();
+                $channel->data = [
+                    "subscribed" => false,
+                ];
             }
             $channel->youtube_id = $item->snippet->resourceId->channelId;
             $channel->name = $item->snippet->title;
             $channel->avatar = $item->snippet->thumbnails->default->url;
-            $channel->data = [
-                "description" => $item->snippet->description,
-            ];
+            $chData = $channel->data;
+            $chData["description"] = $item->snippet->description;
+            $channel->data = $chData;
             $channel->save();
             $this->subIds[] = $channel->id;
         }

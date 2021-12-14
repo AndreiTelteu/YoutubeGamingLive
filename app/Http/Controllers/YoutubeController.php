@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use Socialite;
 use App\Models\User;
 use WhichBrowser\Parser;
@@ -63,5 +64,13 @@ class YoutubeController extends Controller
     {
         logger()->debug("youtube hook call " . json_encode($request->all()));
         echo $request->hub_challenge;
+
+        $channel = Channel::findByTopic($request->hub_topic);
+        if ($channel) {
+            $data = $channel->data;
+            $data["subscribed"] = true;
+            $channel->data = $data;
+            $channel->save();
+        }
     }
 }

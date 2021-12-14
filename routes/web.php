@@ -20,15 +20,6 @@ Route::get("/", function () {
 
 Route::get("/youtube/login", [YoutubeController::class, "login"]);
 Route::get("/youtube/callback", [YoutubeController::class, "callback"]);
-Route::get("/youtube/webhook", [YoutubeController::class, "webhook"]);
-
-Route::get("/youtube/subscribe", function () {
-    $pubsub = new \Pubsubhubbub\Subscriber\Subscriber(
-        "https://pubsubhubbub.appspot.com",
-        "https://youtubegaming.live/youtube/webhook"
-    );
-
-    $sub = $pubsub->subscribe(
-        "https://www.youtube.com/xml/feeds/videos.xml?channel_id=UCWxlUwW9BgGISaakjGM37aw"
-    );
-});
+Route::get("/youtube/webhook", [YoutubeController::class, "webhook"])->name(
+    "youtube.webhook"
+);
