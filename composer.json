@@ -21,6 +21,7 @@
         "madcoda/php-youtube-api": "^1.2",
         "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
         "socialiteproviders/youtube": "^4.1",
+        "swooletw/laravel-swoole": "^2.10",
         "whichbrowser/parser": "^2.1"
     },
     "require-dev": {
@@ -55,7 +56,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
-        "post-update-cmd": [
+        "post-update-cmd-edede": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan ide-helper:generate",
             "@php artisan ide-helper:meta"

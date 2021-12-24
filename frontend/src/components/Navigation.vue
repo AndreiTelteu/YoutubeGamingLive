@@ -1,5 +1,6 @@
 <script>
 import popupCenter from "@/utils/popupCenter";
+import socket from "@/plugins/socket";
 
 export default {
     name: "Navigation",
@@ -21,11 +22,15 @@ export default {
             });
             window.YoutubeLoginCallback = (auth) => {
                 this.$store.commit("update", auth);
+                if (auth.logged) {
+                    socket.connect(auth.token);
+                }
             };
         },
         logout() {
             this.showAccountDropdown = false;
             this.$store.commit("update", { logged: false });
+            socket.reset();
         },
     },
 };
