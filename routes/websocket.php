@@ -13,23 +13,26 @@ use SwooleTW\Http\Websocket\Facades\Websocket;
 */
 
 Websocket::on("connect", function ($websocket, Request $request) {
-    $request->headers->set("Authorization", "Bearer " . $request->token);
-    echo "\n";
-    echo "Conectat - " . $request->token;
-    echo "\n";
-    // dump($request->headers->all());
-    // dump($request->bearerToken());
-    // $model = \Laravel\Sanctum\Sanctum::$personalAccessTokenModel;
-    // $accessToken = $model::findToken($request->token);
-    try {
-        dump([$request->bearerToken(), verify_token($request->token)]);
-    } catch (\Exception $e) {
-        dump($e);
-    }
+    $userData = socket_data($websocket->getSender());
+    $user = token_user($request->token);
+    $userData["user"] = $user;
+    socket_data($userData);
+
+    echo "Conectat - " .
+        ($user ? $user->name : "vizitator") .
+        " - " .
+        $websocket->getSender() .
+        "\n";
 });
 
 Websocket::on("disconnect", function ($websocket) {
-    // called while socket on disconnect
+    $userData = socket_data($websocket->getSender());
+    echo "Deconectat - " .
+        ($userData["user"] ? $userData["user"]->name : "vizitator") .
+        " - " .
+        $websocket->getSender() .
+        "\n";
+    cache(["ws:" . $websocket->getSender() => null]);
 });
 
 Websocket::on("example", function ($websocket, $data) {

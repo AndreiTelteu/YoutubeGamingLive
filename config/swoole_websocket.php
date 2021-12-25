@@ -7,7 +7,7 @@ return [
     | Replace this handler if you want to customize your websocket handler
     |--------------------------------------------------------------------------
     */
-    'handler' => SwooleTW\Http\Websocket\SocketIO\WebsocketHandler::class,
+    "handler" => SwooleTW\Http\Websocket\SocketIO\WebsocketHandler::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -15,21 +15,21 @@ return [
     | Replace it if you want to customize your websocket payload
     |--------------------------------------------------------------------------
     */
-    'parser' => SwooleTW\Http\Websocket\SocketIO\SocketIOParser::class,
+    "parser" => SwooleTW\Http\Websocket\SocketIO\SocketIOParser::class,
 
     /*
     |--------------------------------------------------------------------------
     | Websocket route file path
     |--------------------------------------------------------------------------
     */
-    'route_file' => base_path('routes/websocket.php'),
+    "route_file" => base_path("routes/websocket.php"),
 
     /*
     |--------------------------------------------------------------------------
     | Default middleware for on connect request
     |--------------------------------------------------------------------------
     */
-    'middleware' => [
+    "middleware" => [
         // SwooleTW\Http\Websocket\Middleware\DecryptCookies::class,
         // SwooleTW\Http\Websocket\Middleware\StartSession::class,
         // SwooleTW\Http\Websocket\Middleware\Authenticate::class,
@@ -40,9 +40,9 @@ return [
     | Websocket handler for customized onHandShake callback
     |--------------------------------------------------------------------------
     */
-    'handshake' => [
-        'enabled' => false,
-        'handler' => SwooleTW\Http\Websocket\HandShakeHandler::class,
+    "handshake" => [
+        "enabled" => false,
+        "handler" => SwooleTW\Http\Websocket\HandShakeHandler::class,
     ],
 
     /*
@@ -50,30 +50,30 @@ return [
     | Default websocket driver
     |--------------------------------------------------------------------------
     */
-    'default' => 'table',
+    "default" => "table",
 
     /*
     |--------------------------------------------------------------------------
     | Websocket client's heartbeat interval (ms)
     |--------------------------------------------------------------------------
     */
-    'ping_interval' => 25000,
+    "ping_interval" => 25000,
 
     /*
     |--------------------------------------------------------------------------
     | Websocket client's heartbeat interval timeout (ms)
     |--------------------------------------------------------------------------
     */
-    'ping_timeout' => 60000,
+    "ping_timeout" => 60 * 60000,
 
     /*
     |--------------------------------------------------------------------------
     | Room drivers mapping
     |--------------------------------------------------------------------------
     */
-    'drivers' => [
-        'table' => SwooleTW\Http\Websocket\Rooms\TableRoom::class,
-        'redis' => SwooleTW\Http\Websocket\Rooms\RedisRoom::class,
+    "drivers" => [
+        "table" => SwooleTW\Http\Websocket\Rooms\TableRoom::class,
+        "redis" => SwooleTW\Http\Websocket\Rooms\RedisRoom::class,
     ],
 
     /*
@@ -81,27 +81,26 @@ return [
     | Room drivers settings
     |--------------------------------------------------------------------------
     */
-    'settings' => [
-
-        'table' => [
-            'room_rows' => 4096,
-            'room_size' => 2048,
-            'client_rows' => 8192,
-            'client_size' => 2048,
+    "settings" => [
+        "table" => [
+            "room_rows" => 4096,
+            "room_size" => 2048,
+            "client_rows" => 8192,
+            "client_size" => 2048,
         ],
 
-        'redis' => [
-            'server' => [
-                'host' => env('REDIS_HOST', '127.0.0.1'),
-                'password' => env('REDIS_PASSWORD', null),
-                'port' => env('REDIS_PORT', 6379),
-                'database' => 0,
-                'persistent' => true,
+        "redis" => [
+            "server" => [
+                "host" => env("REDIS_HOST", "127.0.0.1"),
+                "password" => env("REDIS_PASSWORD", null),
+                "port" => env("REDIS_PORT", 6379),
+                "database" => 0,
+                "persistent" => true,
             ],
-            'options' => [
+            "options" => [
                 //
             ],
-            'prefix' => 'swoole:',
+            "prefix" => "swoole:",
         ],
     ],
 ];

@@ -12,6 +12,9 @@ export default {
                 token: token,
             },
         });
+        this.conn.on("connect", () => {
+            this.connected = this.conn.connected;
+        });
     },
 
     reset() {

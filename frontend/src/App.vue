@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         startSocket() {
-            if (this.auth.logged) {
+            if (this.auth.logged && !socket.connected) {
                 socket.connect(this.auth.token);
             }
         },

@@ -2,8 +2,8 @@
 
 use Laravel\Sanctum\Sanctum;
 
-if (!function_exists("verify_token")) {
-    function verify_token($token)
+if (!function_exists("token_user")) {
+    function token_user($token)
     {
         $expiration = null;
         $model = Sanctum::$personalAccessTokenModel;
@@ -22,6 +22,6 @@ if (!function_exists("verify_token")) {
             );
         }
 
-        return $isValid;
+        return $isValid ? $accessToken->tokenable : false;
     }
 }
