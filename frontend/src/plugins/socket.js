@@ -1,25 +1,33 @@
-import { io } from "socket.io-client";
+import io from "socket.io-client";
+
+let socket = null;
 
 export default {
-    connected: false,
+    connected: () => (socket ? socket?.connected : false),
     conn: null,
 
     connect(token) {
         this.reset();
-        this.conn = io("wss://youtubegaming.live", {
+        socket = io("wss://youtubegaming.live", {
             transports: ["websocket"],
             query: {
                 token: token,
             },
         });
-        this.conn.on("connect", () => {
-            this.connected = this.conn.connected;
+
+        socket.on("connect", () => {
+            console.log("connected", this.connected());
+        });
+        socket.on("disconnect", (reason) => {
+            console.error("disconnect", reason);
+        });
+        socket.on("connect_error", (reason) => {
+            console.error("connect_error", reason);
         });
     },
 
     reset() {
-        this.connected = false;
-        if (this.conn) this.conn.disconnect();
-        this.conn = null;
+        if (socket) socket.disconnect();
+        socket = null;
     },
 };
