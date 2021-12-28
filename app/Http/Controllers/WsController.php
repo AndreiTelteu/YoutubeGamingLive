@@ -30,4 +30,11 @@ class WsController extends Controller
             "\n";
         cache(["ws:" . $websocket->getSender() => null]);
     }
+
+    public function subscribers($websocket)
+    {
+        $userData = socket_data($websocket->getSender());
+        $data = $userData["user"]->subscriptions()->get();
+        $websocket->emit("subscribers", socket_response($data));
+    }
 }

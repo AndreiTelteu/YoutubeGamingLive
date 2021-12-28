@@ -4,7 +4,7 @@ export const streamers = {
     }),
 
     mutations: {
-        update(state, value) {
+        streamersUpdate(state, value) {
             state.items = value.items;
         },
     },

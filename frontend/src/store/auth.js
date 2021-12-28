@@ -4,7 +4,7 @@ export const auth = {
     }),
 
     mutations: {
-        update(state, value) {
+        authUpdate(state, value) {
             state.logged = value.logged;
             if (value.logged) {
                 state.user = value.user;

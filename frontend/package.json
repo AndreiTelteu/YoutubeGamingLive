@@ -12,6 +12,7 @@
     "@mdi/font": "5.9.55",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "js-base64": "^3.7.2",
     "roboto-fontface": "*",
     "socket.io-client": "2.*",
     "vue": "^3.0.0",

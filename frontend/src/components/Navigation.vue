@@ -21,7 +21,7 @@ export default {
                 h: 500,
             });
             window.YoutubeLoginCallback = (auth) => {
-                this.$store.commit("update", auth);
+                this.$store.commit("authUpdate", auth);
                 if (auth.logged) {
                     socket.connect(auth.token);
                 }
@@ -29,7 +29,7 @@ export default {
         },
         logout() {
             this.showAccountDropdown = false;
-            this.$store.commit("update", { logged: false });
+            this.$store.commit("authUpdate", { logged: false });
             socket.reset();
         },
     },

@@ -1,4 +1,6 @@
 import io from "socket.io-client";
+import store from "@/plugins/vuex";
+import socketResponse from "@/utils/socketResponse";
 
 let socket = null;
 
@@ -16,13 +18,22 @@ export default {
         });
 
         socket.on("connect", () => {
-            console.log("connected", this.connected());
+            console.info("connected", this.connected());
+            socket.emit("subscribers");
         });
         socket.on("disconnect", (reason) => {
             console.error("disconnect", reason);
         });
         socket.on("connect_error", (reason) => {
             console.error("connect_error", reason);
+        });
+
+        socket.on("subscribers", (data) => {
+            data = socketResponse(data);
+            store.commit("subscriptionsUpdate", {
+                items: data,
+                total: data.length,
+            });
         });
     },
 

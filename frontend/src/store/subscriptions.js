@@ -1,11 +1,13 @@
 export const subscriptions = {
     state: () => ({
         items: [],
+        total: 0,
     }),
 
     mutations: {
-        update(state, value) {
+        subscriptionsUpdate(state, value) {
             state.items = value.items;
+            state.total = value.total;
         },
     },
 };

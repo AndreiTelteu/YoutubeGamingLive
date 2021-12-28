@@ -10,10 +10,13 @@ use Youtube;
 class Channel extends Model
 {
     use HasFactory;
+
     protected $table = "channels";
     protected $fillable = ["youtube_id", "name", "avatar", "data"];
     protected $casts = ["data" => "array"];
-    protected $appends = ["topic"];
+    protected $appends = ["topic", "online"];
+
+    public $online = false;
 
     protected $dispatchesEvents = [
         "created" => ChannelCreated::class,
@@ -22,6 +25,11 @@ class Channel extends Model
     public function getTopicAttribute()
     {
         return "https://www.youtube.com/xml/feeds/videos.xml?channel_id={$this->attributes["youtube_id"]}";
+    }
+
+    public function getOnlineAttribute()
+    {
+        return $this->online;
     }
 
     public static function parseTopicUrl($topic)
