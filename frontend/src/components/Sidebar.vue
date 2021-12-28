@@ -73,4 +73,7 @@ export default {
 .channel-item.is-offline img {
     filter: grayscale(1);
 }
+.channel-item.is-offline {
+    opacity: 0.8;
+}
 </style>

@@ -38,7 +38,9 @@ export default {
 
 <template>
     <v-app-bar density="compact">
-        <v-app-bar-title> 🔴 Youtube Gaming Live </v-app-bar-title>
+        <router-link to="/" class="logo">
+            <v-app-bar-title> 🔴 Youtube Gaming Live </v-app-bar-title>
+        </router-link>
 
         <v-divider inset vertical></v-divider>
         <v-btn to="/" class="ml-3">Home</v-btn>
@@ -93,3 +95,13 @@ export default {
         </v-menu>
     </v-app-bar>
 </template>
+
+<style>
+.logo,
+.logo:hover,
+.logo:visited,
+.logo:active {
+    text-decoration: none;
+    color: inherit;
+}
+</style>

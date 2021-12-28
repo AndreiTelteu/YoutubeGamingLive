@@ -32,7 +32,59 @@ export default {
         <Navigation />
         <v-main>
             <Sidebar />
-            <router-view />
+            <router-view v-slot="{ Component, route }">
+                <transition name="slide" :duration="100">
+                    <component :is="Component" :key="route.path" />
+                </transition>
+            </router-view>
         </v-main>
     </v-app>
 </template>
+
+<style>
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.1s linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.slide-enter-from {
+    transform: translateX(10%);
+    opacity: 0;
+}
+.slide-enter-to {
+    transform: translateX(0%);
+    opacity: 1;
+}
+.slide-leave-from {
+    transform: translateX(0%);
+    opacity: 1;
+}
+.slide-leave-to {
+    transform: translateX(-10%);
+    opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.1s linear;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.fade-enter-from {
+    opacity: 0;
+}
+.fade-enter-to {
+    opacity: 1;
+}
+.fade-leave-from {
+    opacity: 1;
+}
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
