@@ -91,7 +91,7 @@ class RefreshSubscriptions implements ShouldQueue
             $channel->data = $chData;
             $channel->save();
             $this->subIds[] = $channel->id;
-            if ($channel->slug == $channel->youtube_id) {
+            if (!$channel->slug || $channel->slug == $channel->youtube_id) {
                 $this->missingSlug[] = $channel;
             }
         }
@@ -109,7 +109,7 @@ class RefreshSubscriptions implements ShouldQueue
         foreach ($allChannels->chunk(50) as $channels) {
             $ids = $channels->pluck("youtube_id")->toArray();
             $params = [
-                "part" => "snippet",
+                "part" => "snippet,brandingSettings",
                 "id" => implode(",", $ids),
                 "maxResults" => 50,
             ];
@@ -132,12 +132,29 @@ class RefreshSubscriptions implements ShouldQueue
                 if (!$channel || !$item->snippet) {
                     continue;
                 }
+
                 if (optional($item->snippet)->customUrl) {
                     $channel->slug = $item->snippet->customUrl;
                 }
                 if (optional($item->snippet)->country) {
                     $channel->country = $item->snippet->country;
                 }
+
+                if (
+                    optional($item->snippet)->thumbnails &&
+                    $item->snippet->thumbnails->medium
+                ) {
+                    $channel->avatar_medium =
+                        $item->snippet->thumbnails->medium->url;
+                }
+                if (
+                    optional($item->brandingSettings)->image &&
+                    optional($item->brandingSettings)->image->bannerExternalUrl
+                ) {
+                    $channel->banner_image =
+                        $item->brandingSettings->image->bannerExternalUrl;
+                }
+
                 $channel->save();
             }
         }

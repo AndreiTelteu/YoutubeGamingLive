@@ -16,9 +16,11 @@ class Channel extends Model
         "youtube_id",
         "slug",
         "name",
-        "avatar",
         "data",
         "country",
+        "avatar",
+        "avatar_medium",
+        "banner_image",
     ];
     protected $casts = ["data" => "array"];
     protected $appends = ["topic", "online"];
