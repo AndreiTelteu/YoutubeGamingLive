@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
+import Home from "@/pages/Home.vue";
 
 const routes = [
     {
@@ -11,15 +11,21 @@ const routes = [
         path: "/browse",
         name: "Browse",
         component: () =>
-            import(/* webpackChunkName: "browse" */ "@/views/Browse.vue"),
+            import(/* webpackChunkName: "browse" */ "@/pages/Browse.vue"),
     },
     {
         path: "/subscriptions",
         name: "Subscriptions",
         component: () =>
             import(
-                /* webpackChunkName: "subscriptions" */ "@/views/Subscriptions.vue"
+                /* webpackChunkName: "subscriptions" */ "@/pages/Subscriptions.vue"
             ),
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        name: "Channel",
+        component: () =>
+            import(/* webpackChunkName: "Channel" */ "@/pages/Channel.vue"),
     },
 ];
 

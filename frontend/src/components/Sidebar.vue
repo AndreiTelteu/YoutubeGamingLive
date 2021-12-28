@@ -25,8 +25,9 @@ export default {
             <v-list dense rounded>
                 <div v-if="this.auth.logged">
                     <v-list-item
-                        link
                         v-for="(channel, index) in this.subscriptions.items"
+                        link
+                        :to="'/' + channel.slug"
                         :key="index"
                         :class="[
                             'channel-item',
