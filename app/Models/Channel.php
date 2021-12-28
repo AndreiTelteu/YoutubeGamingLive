@@ -12,7 +12,14 @@ class Channel extends Model
     use HasFactory;
 
     protected $table = "channels";
-    protected $fillable = ["youtube_id", "name", "avatar", "data"];
+    protected $fillable = [
+        "youtube_id",
+        "slug",
+        "name",
+        "avatar",
+        "data",
+        "country",
+    ];
     protected $casts = ["data" => "array"];
     protected $appends = ["topic", "online"];
 

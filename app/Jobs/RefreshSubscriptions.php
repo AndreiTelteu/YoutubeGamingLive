@@ -18,6 +18,7 @@ class RefreshSubscriptions implements ShouldQueue
     public $user;
     private $pageToken = null;
     private $subIds = [];
+    private $missingSlug = [];
 
     /**
      * Create a new job instance.
@@ -38,7 +39,10 @@ class RefreshSubscriptions implements ShouldQueue
     {
         while ($this->syncPage()) {
         }
+
         $this->user->subscriptions()->sync($this->subIds);
+
+        $this->resolveSlugs();
     }
 
     public function syncPage()
@@ -74,6 +78,7 @@ class RefreshSubscriptions implements ShouldQueue
             )->first();
             if (!$channel) {
                 $channel = new Channel();
+                $channel->slug = $item->snippet->resourceId->channelId;
                 $channel->data = [
                     "subscribed" => false,
                 ];
@@ -86,8 +91,55 @@ class RefreshSubscriptions implements ShouldQueue
             $channel->data = $chData;
             $channel->save();
             $this->subIds[] = $channel->id;
+            if ($channel->slug == $channel->youtube_id) {
+                $this->missingSlug[] = $channel;
+            }
         }
 
         return $this->pageToken != null;
+    }
+
+    public function resolveSlugs()
+    {
+        if (count($this->missingSlug) == 0) {
+            return;
+        }
+
+        $allChannels = collect($this->missingSlug);
+        foreach ($allChannels->chunk(50) as $channels) {
+            $ids = $channels->pluck("youtube_id")->toArray();
+            $params = [
+                "part" => "snippet",
+                "id" => implode(",", $ids),
+                "maxResults" => 50,
+            ];
+            $data = json_decode(
+                Youtube::api_get(
+                    "https://youtube.googleapis.com/youtube/v3/channels",
+                    $params
+                )
+            );
+            if (!$data) {
+                return false;
+            }
+            $subscribers = $data->items;
+            logger()->debug(
+                "refresh data for " . count($data->items) . "channels",
+                $data->items
+            );
+            foreach ($subscribers as $item) {
+                $channel = $channels->where("youtube_id", $item->id)->first();
+                if (!$channel || !$item->snippet) {
+                    continue;
+                }
+                if (optional($item->snippet)->customUrl) {
+                    $channel->slug = $item->snippet->customUrl;
+                }
+                if (optional($item->snippet)->country) {
+                    $channel->country = $item->snippet->country;
+                }
+                $channel->save();
+            }
+        }
     }
 }
