@@ -17,6 +17,7 @@
     "roboto-fontface": "*",
     "socket.io-client": "2.*",
     "tiny-emitter": "^2.1.0",
+    "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuetify": "^3.0.0-alpha.0",

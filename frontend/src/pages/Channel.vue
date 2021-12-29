@@ -1,6 +1,7 @@
 <script>
 import anchorme from "anchorme";
 import emitter from "tiny-emitter/instance";
+import socket from "@/plugins/socket";
 
 export default {
     name: "Channel",
@@ -50,6 +51,14 @@ export default {
         fetchData() {
             console.log(this.slug);
             emitter.emit("loader", true);
+            let init = Date.now();
+            socket
+                .api("channel-details", { slug: this.slug })
+                .then((response) => {
+                    console.log("api reso", response);
+                    console.log(Date.now() - init + " ms");
+                    emitter.emit("loader", false);
+                });
         },
     },
 };
@@ -76,9 +85,11 @@ export default {
                         <div class="d-flex align-center mx-4">
                             <div>
                                 <v-img
-                                    width="80"
+                                    width="120"
                                     :aspect-ratio="1 / 1"
-                                    :src="channel.avatar"
+                                    :src="
+                                        channel.avatar_medium || channel.avatar
+                                    "
                                     class="rounded-circle"
                                 />
                             </div>
