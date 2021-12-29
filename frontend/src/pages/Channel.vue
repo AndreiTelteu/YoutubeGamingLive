@@ -1,5 +1,7 @@
 <script>
 import anchorme from "anchorme";
+import emitter from "tiny-emitter/instance";
+
 export default {
     name: "Channel",
     data: () => ({
@@ -47,6 +49,7 @@ export default {
         },
         fetchData() {
             console.log(this.slug);
+            emitter.emit("loader", true);
         },
     },
 };

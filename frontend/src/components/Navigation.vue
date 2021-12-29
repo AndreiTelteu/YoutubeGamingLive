@@ -1,10 +1,13 @@
 <script>
 import popupCenter from "@/utils/popupCenter";
 import socket from "@/plugins/socket";
+import emitter from "tiny-emitter/instance";
 
+let loaderTimeout;
 export default {
     name: "Navigation",
     data: () => ({
+        loading: false,
         showAccountDropdown: false,
     }),
     computed: {
@@ -12,6 +15,20 @@ export default {
             return this.$store.state.auth;
         },
     },
+
+    mounted() {
+        emitter.off("loader");
+        emitter.on("loader", (show, timeout = 0) => {
+            this.loading = show;
+            if (loaderTimeout) clearTimeout(loaderTimeout);
+            if (show) {
+                loaderTimeout = setTimeout(() => {
+                    this.loading = false;
+                }, timeout || 1000);
+            }
+        });
+    },
+
     methods: {
         loginYoutube() {
             popupCenter({
@@ -93,6 +110,13 @@ export default {
                 </v-list>
             </v-card>
         </v-menu>
+
+        <v-progress-linear
+            :active="loading"
+            :indeterminate="loading"
+            color="red"
+            class="global-loading-bar"
+        />
     </v-app-bar>
 </template>
 
@@ -101,7 +125,14 @@ export default {
 .logo:hover,
 .logo:visited,
 .logo:active {
+    display: block;
     text-decoration: none;
     color: inherit;
+}
+.global-loading-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 </style>
