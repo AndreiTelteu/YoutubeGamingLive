@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.65",
         "laravel/horizon": "^5.7",
         "laravel/octane": "^1.0",
@@ -18,8 +18,8 @@
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
-        "madcoda/php-youtube-api": "^1.2",
         "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
+        "onlinedigital/laravel-youtube-api": "dev-master",
         "socialiteproviders/youtube": "^4.1",
         "swooletw/laravel-swoole": "^2.10",
         "whichbrowser/parser": "^2.1"
@@ -44,6 +44,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/OnlineDigital/pubsubhubbub-php-subscriber"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/OnlineDigital/laravel-youtube-api"
         }
     ],
     "autoload-dev": {

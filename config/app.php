@@ -164,7 +164,7 @@ return [
          * Package Service Providers...
          */
         \SocialiteProviders\Manager\ServiceProvider::class,
-        \Madcoda\Youtube\YoutubeServiceProviderLaravel5::class,
+        \Madcoda\Youtube\YoutubeServiceProviderLaravel7::class,
 
         /*
          * Application Service Providers...
