@@ -58,6 +58,7 @@ export default {
                     emitter.emit("loader", false);
                     if (response.success) {
                         this.channel = { ...this.channel, ...response.channel };
+                        // this.channel.online = true;
                         let items = [...this.$store.state.subscriptions.items];
                         items.map((item, index) => {
                             if (item.slug == this.slug) {
@@ -76,9 +77,31 @@ export default {
 </script>
 
 <template>
-    <v-row class="channel-page text-center py-4">
+    <v-row class="channel-page text-center">
+        <v-col cols="12" class="channel-player" v-if="channel.online">
+            <v-row class="channel-row ma-0">
+                <v-col cols="12" md="9" class="channel-video pa-0">
+                    <iframe
+                        src="https://www.youtube.com/embed/DWcJFNfaw9c"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        frameborder="0"
+                        allowfullscreen
+                    ></iframe>
+                </v-col>
+                <v-col cols="12" md="3" class="channel-chat pa-0">
+                    <iframe
+                        src="https://www.youtube.com/live_chat?is_popout=1&v=DWcJFNfaw9c"
+                        title="YouTube live chat"
+                        frameborder="0"
+                    ></iframe>
+                </v-col>
+            </v-row>
+            <v-divider />
+        </v-col>
+
         <v-col cols="12">
-            <v-card class="mx-auto" max-width="80%">
+            <v-card class="mx-auto my-4" max-width="80%">
                 <div
                     class="d-block d-md-flex flex-no-wrap justify-space-between align-center"
                 >
@@ -108,8 +131,25 @@ export default {
                                 <v-card-title>
                                     {{ channel.name }}
                                 </v-card-title>
-                                <v-card-subtitle>
-                                    Channel is offline
+                                <v-card-subtitle
+                                    :style="{
+                                        opacity: channel.online ? 1 : 0.6,
+                                    }"
+                                >
+                                    <div v-if="channel.online">
+                                        <v-chip
+                                            class="channel-online-badge"
+                                            size="small"
+                                            color="red"
+                                            variant="outlined"
+                                            label
+                                        >
+                                            LIVE NOW
+                                        </v-chip>
+                                    </div>
+                                    <div v-if="!channel.online">
+                                        Channel is offline
+                                    </div>
                                 </v-card-subtitle>
                             </div>
                         </div>
@@ -129,6 +169,22 @@ export default {
 </template>
 
 <style>
+.channel-row > div {
+    height: 80vh;
+    width: 100%;
+    overflow: hidden;
+}
+.channel-row > div > iframe {
+    width: 100%;
+    height: 100%;
+}
+.channel-row .channel-chat > iframe {
+    height: calc(100% + 1px);
+}
+.channel-online-badge {
+    color: #ff4e45 !important;
+    border-color: #ff4e45 !important;
+}
 .channel-desc-link {
     color: inherit;
 }

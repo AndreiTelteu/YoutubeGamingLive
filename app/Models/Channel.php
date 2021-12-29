@@ -73,7 +73,7 @@ class Channel extends Model
         );
         if (
             $data &&
-            $data->items &&
+            isset($data->items) &&
             $data->items[0] &&
             $data->items[0]->snippet->liveBroadcastContent == "live"
         ) {
