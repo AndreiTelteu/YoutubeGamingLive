@@ -49,15 +49,26 @@ export default {
             this.channel = { ...this.channel, ...channel };
         },
         fetchData() {
-            console.log(this.slug);
             emitter.emit("loader", true);
             let init = Date.now();
             socket
                 .api("channel-details", { slug: this.slug })
                 .then((response) => {
-                    console.log("api reso", response);
-                    console.log(Date.now() - init + " ms");
+                    console.log(Date.now() - init + " ms", response.channel);
                     emitter.emit("loader", false);
+                    if (response.success) {
+                        this.channel = { ...this.channel, ...response.channel };
+                        let items = [...this.$store.state.subscriptions.items];
+                        items.map((item, index) => {
+                            if (item.slug == this.slug) {
+                                items[index] = { ...item, ...response.channel };
+                            }
+                        });
+                        this.$store.commit("subscriptionsUpdate", {
+                            items: items,
+                            total: items.length,
+                        });
+                    }
                 });
         },
     },

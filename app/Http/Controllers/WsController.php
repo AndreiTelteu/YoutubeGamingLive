@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -35,7 +36,19 @@ class WsController extends Controller
     public function subscribers($websocket)
     {
         $userData = socket_data($websocket->getSender());
-        $data = $userData["user"]->subscriptions()->get();
+        $data = [];
+        $channels = $userData["user"]->subscriptions()->get();
+        foreach ($channels as $channel) {
+            $data[] = $channel->only([
+                "id",
+                "updated_at",
+                "youtube_id",
+                "name",
+                "slug",
+                "avatar",
+                "country",
+            ]);
+        }
         $websocket->emit("subscribers", socket_response($data));
     }
 
@@ -55,10 +68,14 @@ class WsController extends Controller
 
     public function apiChannelDetails($userData, $data)
     {
-        $data["count"] = 0;
-        for ($i = 1; $i < 10; $i++) {
-            $data["count"] += count($userData["user"]->subscriptions()->get());
+        $channel = Channel::where("slug", $data["slug"])->first();
+        if (!$channel) {
+            return ["success" => false, "message" => "Channel not found"];
         }
-        return $data;
+        $channel->online = $channel->checkIfLive();
+        return [
+            "success" => true,
+            "channel" => $channel,
+        ];
     }
 }

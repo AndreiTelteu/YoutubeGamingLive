@@ -41,6 +41,14 @@ export default {
 
         socket.on("subscribers", (data) => {
             data = socketResponse(data);
+            let items = {};
+            store.state.subscriptions.items.map((item) => {
+                items[item.id] = item;
+            });
+            data.map((item, index) => {
+                let currentData = items[item.id] || {};
+                data[index] = { ...currentData, ...item };
+            });
             store.commit("subscriptionsUpdate", {
                 items: data,
                 total: data.length,
