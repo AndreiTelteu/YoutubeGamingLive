@@ -138,7 +138,7 @@ export default {
                                 >
                                     <div v-if="channel.online">
                                         <v-chip
-                                            class="channel-online-badge"
+                                            class="channel-online-badge is-outlined"
                                             size="small"
                                             color="red"
                                             variant="outlined"
@@ -182,8 +182,10 @@ export default {
     height: calc(100% + 1px);
 }
 .channel-online-badge {
-    color: #ff4e45 !important;
     border-color: #ff4e45 !important;
+}
+.channel-online-badge.is-outlined {
+    color: #ff4e45 !important;
 }
 .channel-desc-link {
     color: inherit;

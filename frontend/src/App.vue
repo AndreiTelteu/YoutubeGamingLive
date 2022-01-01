@@ -87,4 +87,26 @@ export default {
 .fade-leave-to {
     opacity: 0;
 }
+
+.dark-scrollbar,
+.dark-scrollbar > div {
+    padding-right: 2px;
+}
+.dark-scrollbar::-webkit-scrollbar,
+.dark-scrollbar > div::-webkit-scrollbar {
+    width: 8px;
+}
+.dark-scrollbar::-webkit-scrollbar-track,
+.dark-scrollbar > div::-webkit-scrollbar-track {
+    background: transparent;
+}
+.dark-scrollbar::-webkit-scrollbar-thumb,
+.dark-scrollbar > div::-webkit-scrollbar-thumb {
+    background: #3e3e3e;
+    border-radius: 7px;
+}
+.dark-scrollbar::-webkit-scrollbar-thumb:hover,
+.dark-scrollbar > div::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
 </style>
