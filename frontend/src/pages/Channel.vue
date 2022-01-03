@@ -9,6 +9,7 @@ export default {
         slug: null,
         loading: true,
         channel: {},
+        player: null,
     }),
 
     computed: {
@@ -47,6 +48,7 @@ export default {
             );
             if (!channel) return;
             this.channel = { ...this.channel, ...channel };
+            this.openPlayer({});
         },
         fetchData() {
             emitter.emit("loader", true);
@@ -72,17 +74,32 @@ export default {
                     }
                 });
         },
+        openPlayer(props) {
+            let videoId = props.videoId || "DWcJFNfaw9c";
+            let autoplay = this.$store.state.settings.autoplay
+                ? "&autoplay=1"
+                : "";
+            this.player = {
+                videoId,
+                playSrc: `https://www.youtube.com/embed/${videoId}?modestbranding=1&rel=0${autoplay}`,
+                chatSrc: `https://www.youtube.com/live_chat?v=${videoId}&is_popout=1`,
+            };
+        },
     },
 };
 </script>
 
 <template>
     <v-row class="channel-page text-center">
-        <v-col cols="12" class="channel-player" v-if="channel.online">
+        <v-col
+            cols="12"
+            class="channel-player"
+            v-if="channel.online && player !== null"
+        >
             <v-row class="channel-row ma-0">
                 <v-col cols="12" md="9" class="channel-video pa-0">
                     <iframe
-                        src="https://www.youtube.com/embed/DWcJFNfaw9c"
+                        :src="player.playSrc"
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         frameborder="0"
@@ -91,7 +108,7 @@ export default {
                 </v-col>
                 <v-col cols="12" md="3" class="channel-chat pa-0">
                     <iframe
-                        src="https://www.youtube.com/live_chat?is_popout=1&v=DWcJFNfaw9c"
+                        :src="player.chatSrc"
                         title="YouTube live chat"
                         frameborder="0"
                     ></iframe>
@@ -170,7 +187,7 @@ export default {
 
 <style>
 .channel-row > div {
-    height: 80vh;
+    height: calc(100vh - 48px);
     width: 100%;
     overflow: hidden;
 }

@@ -44,6 +44,9 @@ export default {
                 }
             };
         },
+        openSettings() {
+            emitter.emit("settings", { show: true });
+        },
         logout() {
             this.showAccountDropdown = false;
             this.$store.commit("authUpdate", { logged: false });
@@ -103,6 +106,10 @@ export default {
             </template>
             <v-card>
                 <v-list>
+                    <v-list-item v-on:click="openSettings()">
+                        <v-icon left icon="mdi-cog-outline"></v-icon>
+                        <v-list-item-title>Settings</v-list-item-title>
+                    </v-list-item>
                     <v-list-item v-on:click="logout()">
                         <v-icon left icon="mdi-logout"></v-icon>
                         <v-list-item-title>Logout</v-list-item-title>

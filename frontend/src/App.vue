@@ -1,13 +1,15 @@
 <script>
 import Sidebar from "@/components/Sidebar";
 import Navigation from "@/components/Navigation";
+import Settings from "@/components/Settings";
 import socket from "@/plugins/socket";
 
 export default {
     name: "Youtube Gaming Live",
     components: {
-        Sidebar,
         Navigation,
+        Settings,
+        Sidebar,
     },
     mounted() {
         this.startSocket();
@@ -15,6 +17,9 @@ export default {
     computed: {
         auth() {
             return this.$store.state.auth;
+        },
+        settings() {
+            return this.$store.state.settings;
         },
     },
     methods: {
@@ -28,8 +33,9 @@ export default {
 </script>
 
 <template>
-    <v-app>
+    <v-app :theme="settings.theme">
         <Navigation />
+        <Settings />
         <v-main>
             <Sidebar />
             <router-view v-slot="{ Component, route }">
@@ -91,6 +97,9 @@ export default {
 .dark-scrollbar,
 .dark-scrollbar > div {
     padding-right: 2px;
+}
+.dark-scrollbar > div {
+    padding-left: 2px;
 }
 .dark-scrollbar::-webkit-scrollbar,
 .dark-scrollbar > div::-webkit-scrollbar {

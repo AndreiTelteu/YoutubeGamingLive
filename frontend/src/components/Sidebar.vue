@@ -94,6 +94,9 @@ export default {
     align-items: center;
     align-content: center;
     justify-content: center;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    min-height: 0px !important;
 }
 .channel-item .channel-icon {
     flex-shrink: 0;
