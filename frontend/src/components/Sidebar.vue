@@ -10,11 +10,37 @@ export default {
         },
         subscriptions() {
             let subscriptions = { ...this.$store.state.subscriptions };
-            subscriptions.items.sort((item) => (item.online ? -1 : 1));
+            subscriptions.items.sort((a, b) => {
+                let viewsa =
+                    a.online && a.online_streams
+                        ? a.online_streams[0]?.views
+                        : 0;
+                let viewsb =
+                    b.online && b.online_streams
+                        ? b.online_streams[0]?.views
+                        : 0;
+                return a.online ? (viewsa > viewsb ? -1 : 0) : 1;
+            });
             if (!this.expandSubscriptions) {
                 subscriptions.items = subscriptions.items.slice(0, 16);
             }
             return subscriptions;
+        },
+    },
+    methods: {
+        calcViews: (channel) => {
+            let views =
+                channel.online && channel.online_streams
+                    ? channel.online_streams[0]?.views
+                    : 0;
+            if (views > 999 && views < 1000000) {
+                views = (views / 1000).toFixed(1) + "K";
+            } else if (views > 1000000) {
+                views = (views / 1000000).toFixed(1) + "M";
+            } else {
+                views = String(views);
+            }
+            return views === "0" ? "" : views;
         },
     },
 };
@@ -57,7 +83,7 @@ export default {
                                 color="red"
                                 label
                             >
-                                LIVE
+                                {{ calcViews(channel) }}
                             </v-chip>
                         </div>
                     </v-list-item>

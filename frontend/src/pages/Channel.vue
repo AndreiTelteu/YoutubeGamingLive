@@ -48,7 +48,6 @@ export default {
             );
             if (!channel) return;
             this.channel = { ...this.channel, ...channel };
-            this.openPlayer({});
         },
         fetchData() {
             emitter.emit("loader", true);
@@ -67,6 +66,11 @@ export default {
                                 items[index] = { ...item, ...response.channel };
                             }
                         });
+                        if (this.channel.online) {
+                            let videoId =
+                                this.channel.online_streams[0]?.id || null;
+                            this.openPlayer({ videoId });
+                        }
                         this.$store.commit("subscriptionsUpdate", {
                             items: items,
                             total: items.length,
