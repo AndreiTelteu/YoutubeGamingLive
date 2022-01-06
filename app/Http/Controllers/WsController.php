@@ -44,6 +44,7 @@ class WsController extends Controller
                 "updated_at",
                 "youtube_id",
                 "name",
+                "online",
                 "slug",
                 "avatar",
                 "country",
@@ -72,7 +73,7 @@ class WsController extends Controller
         if (!$channel) {
             return ["success" => false, "message" => "Channel not found"];
         }
-        $channel->online = $channel->checkIfLive();
+        // $channel->online = $channel->checkIfLive();
         return [
             "success" => true,
             "channel" => $channel,

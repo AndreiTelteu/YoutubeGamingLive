@@ -17,15 +17,25 @@ class Channel extends Model
         "slug",
         "name",
         "data",
+        "online",
+        "online_streams",
+        "last_stream_date",
+        "last_streams",
         "country",
         "avatar",
         "avatar_medium",
         "banner_image",
     ];
-    protected $casts = ["data" => "array"];
-    protected $appends = ["topic", "online"];
 
-    public $online = false;
+    protected $casts = [
+        "data" => "array",
+        "online" => "boolean",
+        "online_streams" => "array",
+        "last_stream_date" => "datetime:Y-m-d H:i:s",
+        "last_streams" => "array",
+    ];
+
+    protected $appends = ["topic"];
 
     protected $dispatchesEvents = [
         "created" => ChannelCreated::class,
@@ -34,11 +44,6 @@ class Channel extends Model
     public function getTopicAttribute()
     {
         return "https://www.youtube.com/xml/feeds/videos.xml?channel_id={$this->attributes["youtube_id"]}";
-    }
-
-    public function getOnlineAttribute()
-    {
-        return $this->online;
     }
 
     public static function parseTopicUrl($topic)
