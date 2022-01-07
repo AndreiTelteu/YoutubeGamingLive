@@ -1,6 +1,7 @@
 const db = require("./db");
 const _ = require("lodash");
 const ytubes = require("./ytubes/dist/index.js");
+const axios = require("axios").default;
 
 let numOfChunks = 5;
 
@@ -50,8 +51,11 @@ const processChannel = (channel) => {
                     })
                     .then((r) => {
                         // console.log("channel ", channel.id, "END");
-                        // TODO: call a laravel api to emit channel update event to all users
-                        resolve();
+                        notifyChannel(channel).then((result) => {
+                            // console.log(result);
+                            // console.log("channel ", channel.id, "NOTIF");
+                            resolve();
+                        });
                     })
                     .catch((e) => {
                         console.log("err", e);
@@ -64,11 +68,36 @@ const processChannel = (channel) => {
             });
     });
 };
+
 const getStreams = (channel, live) => {
     return new Promise((resolve, reject) => {
         let promise = live
             ? ytubes.getChannelLive(channel.youtube_id)
             : ytubes.getChannelPastLive(channel.youtube_id);
         promise.then((streams) => resolve(streams)).catch((e) => resolve([]));
+    });
+};
+
+const notifyChannel = (channel) => {
+    return new Promise((resolve) => {
+        let url = `http://127.0.0.1:${process.env.SWOOLE_HTTP_PORT}/api/socket-event-channel`;
+        fetch({
+            url,
+            method: "POST",
+            data: {
+                sig: process.env.INTERNAL_API_SIG,
+                channelId: channel.id,
+            },
+        })
+            .then((response) => resolve(response.data))
+            .catch((error) => resolve(error));
+    });
+};
+
+const fetch = ({ url, method, data = {} }) => {
+    return new Promise((resolve, reject) => {
+        axios({ method, url, data, timeout: 5000 })
+            .then((response) => resolve(response))
+            .catch((error) => resolve(error));
     });
 };

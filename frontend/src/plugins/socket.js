@@ -54,6 +54,21 @@ export default {
                 total: data.length,
             });
         });
+
+        socket.on("channel", (data) => {
+            data = socketResponse(data);
+            // console.log(data);
+            let items = [...store.state.subscriptions.items];
+            items.map((item, index) => {
+                if (item.id == this.id) {
+                    items[index] = { ...item, ...data };
+                }
+            });
+            store.commit("subscriptionsUpdate", {
+                items: items,
+                total: items.length,
+            });
+        });
     },
 
     api(name, data) {

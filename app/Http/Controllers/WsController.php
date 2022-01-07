@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use SwooleTW\Http\Websocket\Facades\Websocket;
 
 class WsController extends Controller
 {
@@ -26,7 +27,9 @@ class WsController extends Controller
     {
         $userData = socket_data($websocket->getSender());
         echo "Deconectat - " .
-            ($userData["user"] ? $userData["user"]->name : "vizitator") .
+            ($userData && isset($userData["user"])
+                ? $userData["user"]->name
+                : "vizitator") .
             " - " .
             $websocket->getSender() .
             "\n";
@@ -38,19 +41,53 @@ class WsController extends Controller
         $userData = socket_data($websocket->getSender());
         $data = [];
         $channels = $userData["user"]->subscriptions()->get();
+        $rooms = [];
         foreach ($channels as $channel) {
+            $rooms[] = "ch-{$channel->id}";
             $data[] = $channel->only([
                 "id",
                 "updated_at",
                 "youtube_id",
                 "name",
                 "online",
+                "online_streams",
                 "slug",
                 "avatar",
                 "country",
             ]);
         }
         $websocket->emit("subscribers", socket_response($data));
+        $websocket->join($rooms);
+    }
+
+    public function httpChannel(Request $request)
+    {
+        if ($request->get("sig", "") !== env("INTERNAL_API_SIG")) {
+            abort(401);
+        }
+        $channel = Channel::find($request->channelId);
+        if (!$channel) {
+            return ["success" => false];
+        }
+        Websocket::broadcast()
+            ->to("ch-" . $request->channelId)
+            ->emit(
+                "channel",
+                socket_response(
+                    $channel->only([
+                        "id",
+                        "updated_at",
+                        "youtube_id",
+                        "name",
+                        "online",
+                        "online_streams",
+                        "slug",
+                        "avatar",
+                        "country",
+                    ])
+                )
+            );
+        return ["success" => true];
     }
 
     public function api($websocket, $data)
