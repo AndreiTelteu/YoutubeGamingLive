@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\ChannelCreated;
 use App\Listeners\SubscribePubSubHub;
+use App\Listeners\SocketStart;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -24,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
             "@handle",
         ],
         ChannelCreated::class => [SubscribePubSubHub::class],
+        "swoole.start" => [SocketStart::class],
     ];
 
     /**

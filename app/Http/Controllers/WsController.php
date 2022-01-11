@@ -26,6 +26,9 @@ class WsController extends Controller
     public function disconnect($websocket)
     {
         $userData = socket_data($websocket->getSender());
+        if (!isset($userData["user"]) || !$userData["user"]) {
+            return;
+        }
         echo "Deconectat - " .
             ($userData && isset($userData["user"])
                 ? $userData["user"]->name
