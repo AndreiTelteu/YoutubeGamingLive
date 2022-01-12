@@ -61,29 +61,4 @@ class Channel extends Model
         }
         return self::where("youtube_id", $channel_id)->first();
     }
-
-    public function checkIfLive()
-    {
-        $params = [
-            "channelId" => $this->youtube_id,
-            "part" => "snippet",
-            "type" => "channel",
-            "maxResults" => 1,
-        ];
-        $data = json_decode(
-            Youtube::api_get(
-                "https://youtube.googleapis.com/youtube/v3/search",
-                $params
-            )
-        );
-        if (
-            $data &&
-            isset($data->items) &&
-            $data->items[0] &&
-            $data->items[0]->snippet->liveBroadcastContent == "live"
-        ) {
-            return true;
-        }
-        return false;
-    }
 }

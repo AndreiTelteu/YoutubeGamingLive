@@ -39,27 +39,14 @@ class WsController extends Controller
         cache(["ws:" . $websocket->getSender() => null]);
     }
 
-    public function subscribers($websocket)
+    public function joinSubscribersRooms($websocket)
     {
         $userData = socket_data($websocket->getSender());
-        $data = [];
         $channels = $userData["user"]->subscriptions()->get();
         $rooms = [];
         foreach ($channels as $channel) {
             $rooms[] = "ch-{$channel->id}";
-            $data[] = $channel->only([
-                "id",
-                "updated_at",
-                "youtube_id",
-                "name",
-                "online",
-                "online_streams",
-                "slug",
-                "avatar",
-                "country",
-            ]);
         }
-        $websocket->emit("subscribers", socket_response($data));
         $websocket->join($rooms);
     }
 
@@ -107,13 +94,32 @@ class WsController extends Controller
         );
     }
 
+    public function apiSubscribers($userData)
+    {
+        $data = [];
+        $channels = $userData["user"]->subscriptions()->get();
+        foreach ($channels as $channel) {
+            $data[] = $channel->only([
+                "id",
+                "updated_at",
+                "youtube_id",
+                "name",
+                "online",
+                "online_streams",
+                "slug",
+                "avatar",
+                "country",
+            ]);
+        }
+        return $data;
+    }
+
     public function apiChannelDetails($userData, $data)
     {
         $channel = Channel::where("slug", $data["slug"])->first();
         if (!$channel) {
             return ["success" => false, "message" => "Channel not found"];
         }
-        // $channel->online = $channel->checkIfLive();
         return [
             "success" => true,
             "channel" => $channel,

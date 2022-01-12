@@ -21,8 +21,23 @@ export default {
 
         socket.on("connect", () => {
             console.info("connected", this.connected());
-            socket.emit("subscribers");
+            socket.emit("join-subscribers-rooms");
+            this.api("subscribers").then((data) => {
+                let items = {};
+                store.state.subscriptions.items.map((item) => {
+                    items[item.id] = item;
+                });
+                data.map((item, index) => {
+                    let currentData = items[item.id] || {};
+                    data[index] = { ...currentData, ...item };
+                });
+                store.commit("subscriptionsUpdate", {
+                    items: data,
+                    total: data.length,
+                });
+            });
         });
+
         socket.on("disconnect", (reason) => {
             console.error("disconnect", reason);
         });
@@ -37,22 +52,6 @@ export default {
                 apiCallbacks[data[0]](result);
                 delete apiCallbacks[data[0]];
             }
-        });
-
-        socket.on("subscribers", (data) => {
-            data = socketResponse(data);
-            let items = {};
-            store.state.subscriptions.items.map((item) => {
-                items[item.id] = item;
-            });
-            data.map((item, index) => {
-                let currentData = items[item.id] || {};
-                data[index] = { ...currentData, ...item };
-            });
-            store.commit("subscriptionsUpdate", {
-                items: data,
-                total: data.length,
-            });
         });
 
         socket.on("channel", (data) => {
@@ -71,7 +70,7 @@ export default {
         });
     },
 
-    api(name, data) {
+    api(name, data = null) {
         let uuid = Date.now() + "-" + uuidv4();
         return new Promise((resolve) => {
             apiCallbacks[uuid] = (data) => {

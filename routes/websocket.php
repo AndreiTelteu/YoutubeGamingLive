@@ -10,7 +10,10 @@ Websocket::on("disconnect", WsController::class . "@disconnect");
 
 Websocket::on("api", WsController::class . "@api");
 
-Websocket::on("subscribers", WsController::class . "@subscribers");
+Websocket::on(
+    "join-subscribers-rooms",
+    WsController::class . "@joinSubscribersRooms"
+);
 
 // Redis::subscribe(["channel-updated"], function ($message) {
 //     echo $message;

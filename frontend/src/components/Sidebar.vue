@@ -55,7 +55,7 @@ export default {
                         v-for="(channel, index) in this.subscriptions.items"
                         link
                         :to="'/' + channel.slug"
-                        :key="index"
+                        :key="'ch' + channel.youtube_id + index"
                         :class="[
                             'channel-item',
                             channel.online ? 'is-online' : 'is-offline',
