@@ -37,6 +37,7 @@ export default {
                     let currentData = items[item.id] || {};
                     data[index] = { ...currentData, ...item };
                 });
+                socket.subscribeChannels(data);
                 this.$store.commit("subscriptionsUpdate", {
                     items: data,
                     total: data.length,

@@ -24,7 +24,6 @@ export default {
         }
         let authParams = this.authParams();
         options = merge({}, options, authParams, extraOptions);
-        console.log("axios ", url, options);
         return axios(options);
     },
 

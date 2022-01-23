@@ -18,8 +18,6 @@ use App\Http\Controllers\ChannelController;
 
 Broadcast::routes(["middleware" => ["auth:api"]]);
 
-Route::post("/socket-event-channel", [WsController::class, "httpChannel"]);
-
 Route::middleware(["auth:api"])->group(function () {
     Route::prefix("/user")->group(function () {
         Route::get("/", [UserController::class, "get"]);
@@ -29,4 +27,5 @@ Route::middleware(["auth:api"])->group(function () {
 
 Route::prefix("/channel")->group(function () {
     Route::get("/{slug}", [ChannelController::class, "find"]);
+    Route::post("/event-updated", [ChannelController::class, "channelUpdated"]);
 });

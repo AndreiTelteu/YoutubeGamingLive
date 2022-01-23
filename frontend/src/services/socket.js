@@ -1,5 +1,5 @@
 import Pusher from "pusher-js";
-// import store from "@/plugins/vuex";
+import store from "@/plugins/vuex";
 
 let pusher = null;
 
@@ -23,14 +23,11 @@ export default {
             console.log(">>> detected limit error", err.error.data);
         });
 
-        /*
-        socket.on("channel", (data) => {
-            data = socketResponse(data);
-            // console.log(data);
+        pusher.bind("channel", ({ channel }) => {
             let items = [...store.state.subscriptions.items];
             items.map((item, index) => {
-                if (item.id == this.id) {
-                    items[index] = { ...item, ...data };
+                if (item.id == channel.id) {
+                    items[index] = { ...item, ...channel };
                 }
             });
             store.commit("subscriptionsUpdate", {
@@ -38,7 +35,12 @@ export default {
                 total: items.length,
             });
         });
-        */
+    },
+
+    subscribeChannels(channels) {
+        channels.forEach((i) => {
+            pusher.subscribe(`channel.${i.id}`);
+        });
     },
 
     reset() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChannelUpdated;
 use App\Models\Channel;
 use Illuminate\Http\Request;
 
@@ -17,5 +18,18 @@ class ChannelController extends Controller
             "success" => true,
             "channel" => $channel,
         ];
+    }
+
+    public function channelUpdated(Request $request)
+    {
+        if ($request->get("sig", "") !== env("INTERNAL_API_SIG")) {
+            abort(401);
+        }
+        $channel = Channel::find($request->channelId);
+        if (!$channel) {
+            return ["success" => false];
+        }
+        broadcast(new ChannelUpdated($channel));
+        return ["success" => true];
     }
 }

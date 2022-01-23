@@ -18,8 +18,9 @@
         "laravel/socialite": "^5.2",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.5",
-        "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
         "onlinedigital/laravel-youtube-api": "dev-master",
+        "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
+        "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/youtube": "^4.1",
         "swooletw/laravel-swoole": "^2.10",
         "whichbrowser/parser": "^2.1"

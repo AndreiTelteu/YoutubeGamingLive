@@ -19,10 +19,10 @@ db("channels")
             for (let index2 = 0; index2 < batchChannels.length; index2++) {
                 let channel = batchChannels[index2];
                 await processChannel(channel);
-                await sleep(1);
+                await sleep(0.5);
             }
             // get some rest
-            await sleep(10);
+            await sleep(3);
         }
         // console.log("DONEEE !!!");
         process.exit(1);
@@ -80,7 +80,7 @@ const getStreams = (channel, live) => {
 
 const notifyChannel = (channel) => {
     return new Promise((resolve) => {
-        let url = `http://127.0.0.1:${process.env.SWOOLE_HTTP_PORT}/api/socket-event-channel`;
+        let url = `${process.env.APP_URL}/api/channel/event-updated`;
         fetch({
             url,
             method: "POST",
