@@ -1,7 +1,7 @@
 <script>
 import anchorme from "anchorme";
 import emitter from "tiny-emitter/instance";
-import socket from "@/plugins/socket";
+import api from "@/services/api";
 
 export default {
     name: "Channel",
@@ -52,31 +52,35 @@ export default {
         fetchData() {
             emitter.emit("loader", true);
             let init = Date.now();
-            socket
-                .api("channel-details", { slug: this.slug })
-                .then((response) => {
-                    console.log(Date.now() - init + " ms", response.channel);
-                    emitter.emit("loader", false);
-                    if (response.success) {
-                        this.channel = { ...this.channel, ...response.channel };
-                        // this.channel.online = true;
-                        let items = [...this.$store.state.subscriptions.items];
-                        items.map((item, index) => {
-                            if (item.slug == this.slug) {
-                                items[index] = { ...item, ...response.channel };
-                            }
-                        });
-                        if (this.channel.online) {
-                            let videoId =
-                                this.channel.online_streams[0]?.id || null;
-                            this.openPlayer({ videoId });
+            api.get(`/channel/${this.slug}`).then((response) => {
+                console.log(Date.now() - init + " ms", response.data.channel);
+                emitter.emit("loader", false);
+                if (response.data.success) {
+                    this.channel = {
+                        ...this.channel,
+                        ...response.data.channel,
+                    };
+                    // this.channel.online = true;
+                    let items = [...this.$store.state.subscriptions.items];
+                    items.map((item, index) => {
+                        if (item.slug == this.slug) {
+                            items[index] = {
+                                ...item,
+                                ...response.data.channel,
+                            };
                         }
-                        this.$store.commit("subscriptionsUpdate", {
-                            items: items,
-                            total: items.length,
-                        });
+                    });
+                    if (this.channel.online) {
+                        let videoId =
+                            this.channel.online_streams[0]?.id || null;
+                        this.openPlayer({ videoId });
                     }
-                });
+                    this.$store.commit("subscriptionsUpdate", {
+                        items: items,
+                        total: items.length,
+                    });
+                }
+            });
         },
         openPlayer(props) {
             let videoId = props.videoId || "DWcJFNfaw9c";
