@@ -2,7 +2,8 @@
 import Sidebar from "@/components/Sidebar";
 import Navigation from "@/components/Navigation";
 import Settings from "@/components/Settings";
-import socket from "@/plugins/socket";
+import socket from "@/services/socket";
+import api from "@/services/api";
 
 export default {
     name: "Youtube Gaming Live",
@@ -12,7 +13,10 @@ export default {
         Sidebar,
     },
     mounted() {
-        this.startSocket();
+        if (!socket.connected()) socket.connect();
+        if (this.auth.logged) {
+            this.getSubscriptions();
+        }
     },
     computed: {
         auth() {
@@ -23,10 +27,21 @@ export default {
         },
     },
     methods: {
-        startSocket() {
-            if (this.auth.logged && !socket.connected()) {
-                socket.connect(this.auth.token);
-            }
+        getSubscriptions() {
+            api.get("/user/subscriptions").then(({ data }) => {
+                let items = {};
+                this.$store.state.subscriptions.items.map((item) => {
+                    items[item.id] = item;
+                });
+                data.map((item, index) => {
+                    let currentData = items[item.id] || {};
+                    data[index] = { ...currentData, ...item };
+                });
+                this.$store.commit("subscriptionsUpdate", {
+                    items: data,
+                    total: data.length,
+                });
+            });
         },
     },
 };

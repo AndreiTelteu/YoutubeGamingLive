@@ -36,7 +36,7 @@ return [
     | token that's present on an incoming request for authentication.
     |
     */
-    "guard" => ["api"],
+    "guard" => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     | not expire. This won't tweak the lifetime of first-party sessions.
     |
     */
-    "expiration" => 1 * 60,
+    "expiration" => null,
 
     /*
     |--------------------------------------------------------------------------

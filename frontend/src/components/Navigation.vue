@@ -1,6 +1,5 @@
 <script>
 import popupCenter from "@/utils/popupCenter";
-import socket from "@/plugins/socket";
 import emitter from "tiny-emitter/instance";
 
 let loaderTimeout;
@@ -39,9 +38,6 @@ export default {
             });
             window.YoutubeLoginCallback = (auth) => {
                 this.$store.commit("authUpdate", auth);
-                if (auth.logged) {
-                    socket.connect(auth.token);
-                }
             };
         },
         openSettings() {
@@ -50,7 +46,6 @@ export default {
         logout() {
             this.showAccountDropdown = false;
             this.$store.commit("authUpdate", { logged: false });
-            socket.reset();
         },
     },
 };
