@@ -1,0 +1,10 @@
+{
+    "debug": true,
+    "port": 8084,
+    "adapter.driver": "cluster",
+    "metrics.enabled": true,
+    "metrics.port": 9601,
+    "appManager.array.apps.0.id": "ytlive0268",
+    "appManager.array.apps.0.key": "Hf9ELp7X6AHaPJ",
+    "appManager.array.apps.0.secret": "YIf912xR62gCZ6SngM5u1Vc12EP2"
+}
