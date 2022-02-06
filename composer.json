@@ -22,7 +22,6 @@
         "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
         "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/youtube": "^4.1",
-        "swooletw/laravel-swoole": "^2.10",
         "whichbrowser/parser": "^2.1"
     },
     "require-dev": {
