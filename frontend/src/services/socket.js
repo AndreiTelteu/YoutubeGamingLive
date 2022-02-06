@@ -20,7 +20,7 @@ export default {
             console.log(">>> pusher connected", pusher.connection.state);
         });
         pusher.connection.bind("error", (err) => {
-            console.log(">>> detected limit error", err.error.data);
+            console.log(">>> pusher error", err.error);
         });
 
         pusher.bind("channel", ({ channel }) => {
