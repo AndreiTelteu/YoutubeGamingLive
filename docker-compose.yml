@@ -1,8 +1,5 @@
 version: '3.1'
 services:
-  redis:
-    image: 'redis:alpine'
-    restart: unless-stopped
 
   nginx:
     image: 'nginx:alpine'
@@ -18,7 +15,7 @@ services:
       - '55000:80'
 
   php:
-    build: ./
+    build: ./docker/php/
     working_dir: /app
     restart: unless-stopped
     entrypoint: /docker-entrypoint.sh
@@ -29,3 +26,13 @@ services:
       - './docker/php/pool.conf:/etc/php/8.1/fpm/pool.d/z-overrides.conf'
       - './docker/php/docker-entrypoint.sh:/docker-entrypoint.sh'
       - './docker/php/entrypoint:/docker-entrypoint.d'
+  
+  redis:
+    image: 'redis:alpine'
+    restart: unless-stopped
+  
+  soketi:
+    build: ./docker/soketi/
+    restart: unless-stopped
+    volumes:
+      - './docker/soketi/ecosystem.config.js:/app/ecosystem.config.js'
