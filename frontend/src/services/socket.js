@@ -15,6 +15,14 @@ export default {
             enabledTransports: ["wss", "ws"],
             disableStats: true,
         };
+        if (location.host.indexOf('localhost') !== -1) {
+            pusherOptions.wsHost = '127.0.0.1';
+            pusherOptions.wsPort = 8084;//55000;
+            pusherOptions.wsPath = "";
+            pusherOptions.enabledTransports = ["ws"];
+            pusherOptions.forceTLS = false;
+            pusherOptions.encrypted = false;
+        }
         pusher = new Pusher(pusherOptions.key, pusherOptions);
         pusher.connection.bind("connected", () => {
             console.log(">>> pusher connected", pusher.connection.state);

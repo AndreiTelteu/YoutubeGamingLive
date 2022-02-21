@@ -7,7 +7,11 @@ module.exports = {
             env: {
                 DEBUG: "1",
                 PORT: "8084",
-                ADAPTER_DRIVER: "cluster",
+                ADAPTER_DRIVER: "redis",
+                RATE_LIMITER_DRIVER: "redis",
+                ADAPTER_REDIS_PREFIX: "yt-soketi",
+                DB_REDIS_HOST: "redis",
+                DB_REDIS_DB: "2",
                 METRICS_ENABLED: "1",
                 METRICS_SERVER_PORT: "9601",
                 DEFAULT_APP_ID: "ytlive0268",

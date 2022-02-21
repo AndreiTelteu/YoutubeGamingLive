@@ -44,6 +44,9 @@ services:
     restart: unless-stopped
     volumes:
       - './docker/soketi/ecosystem.config.js:/app/ecosystem.config.js'
+    ports:
+      - '8084:8084'
+      - '9601:9601'
   
   crawler:
     build: ./crawler/
