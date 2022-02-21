@@ -1,6 +1,6 @@
 const db = require("./db");
 const _ = require("lodash");
-const ytubes = require("./ytubes/dist/index.js");
+const ytubes = require("ytubes/dist/index.js");
 const axios = require("axios").default;
 
 let numOfChunks = 5;

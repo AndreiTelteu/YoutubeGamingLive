@@ -36,3 +36,11 @@ services:
     restart: unless-stopped
     volumes:
       - './docker/soketi/ecosystem.config.js:/app/ecosystem.config.js'
+  
+  crawler:
+    build: ./crawler/
+    restart: unless-stopped
+    volumes:
+      - '.:/app'
+      - './crawler/docker-entrypoint.sh:/docker-entrypoint.sh'
+      - './crawler/entrypoint:/docker-entrypoint.d'

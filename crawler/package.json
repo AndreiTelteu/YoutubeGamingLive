@@ -5,6 +5,7 @@
         "knex": "^0.95.15",
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
-        "mysql2": "^2.3.3"
+        "mysql2": "^2.3.3",
+        "ytubes": "git+https://github.com/OnlineDigital/ytubes.git"
     }
 }
