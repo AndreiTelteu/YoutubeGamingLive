@@ -31,6 +31,14 @@ services:
     image: 'redis:alpine'
     restart: unless-stopped
   
+  frontend:
+    build: ./frontend/
+    restart: unless-stopped
+    volumes:
+      - '.:/app'
+      - './frontend/docker-entrypoint.sh:/docker-entrypoint.sh'
+      - './frontend/entrypoint:/docker-entrypoint.d'
+  
   soketi:
     build: ./docker/soketi/
     restart: unless-stopped

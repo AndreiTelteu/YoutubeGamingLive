@@ -6,9 +6,9 @@ module.exports = {
         port: 8081,
         allowedHosts: "all",
         hot: true,
-        client: {
-            webSocketURL: "wss://youtubegaming.live/ws",
-        },
+        // client: {
+        //     webSocketURL: "wss://youtubegaming.live/ws",
+        // },
     },
 
     pluginOptions: {
