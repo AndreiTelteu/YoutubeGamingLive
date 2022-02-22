@@ -43,7 +43,7 @@ services:
     ports:
       - "3306"
     volumes:
-      - /var/lib/mysql
+      - yt-gaming-db:/var/lib/mysql
   
   redis:
     image: 'redis:alpine'
@@ -73,3 +73,6 @@ services:
       - '.:/app'
       - './crawler/docker-entrypoint.sh:/docker-entrypoint.sh'
       - './crawler/entrypoint:/docker-entrypoint.d'
+
+volumes:
+  yt-gaming-db:

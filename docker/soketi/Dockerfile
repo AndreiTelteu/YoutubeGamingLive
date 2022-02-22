@@ -1,7 +1,7 @@
 FROM quay.io/soketi/soketi:0.17-16-alpine
 WORKDIR "/app"
 
-RUN npm install pm2 -g
+RUN npm install npm pm2 -g
 
 ENTRYPOINT ["pm2-runtime", "/app/ecosystem.config.js"]
 
