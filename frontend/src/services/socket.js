@@ -16,9 +16,8 @@ export default {
             disableStats: true,
         };
         if (location.host.indexOf('localhost') !== -1) {
-            pusherOptions.wsHost = '127.0.0.1';
-            pusherOptions.wsPort = 8084;//55000;
-            pusherOptions.wsPath = "";
+            pusherOptions.wsHost = location.host.split(':')[0];
+            pusherOptions.wsPort = location.host.split(':')[1];
             pusherOptions.enabledTransports = ["ws"];
             pusherOptions.forceTLS = false;
             pusherOptions.encrypted = false;
