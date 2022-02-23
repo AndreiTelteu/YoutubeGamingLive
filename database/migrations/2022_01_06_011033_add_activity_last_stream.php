@@ -15,9 +15,9 @@ class AddActivityLastStream extends Migration
     {
         Schema::table("channels", function (Blueprint $table) {
             $table->boolean("online")->default(0);
-            $table->text("online_streams")->default("[]");
+            $table->text("online_streams");
             $table->timestamp("last_stream_date")->nullable();
-            $table->text("last_streams")->default("[]");
+            $table->text("last_streams");
         });
     }
 
