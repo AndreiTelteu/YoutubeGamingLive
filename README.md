@@ -18,4 +18,7 @@ docker-compose exec nginx su app -c 'cd /app/public/; ln -s ../storage/app/publi
 # exec inside the php container
 docker-compose exec php su app
 
+# open mysql client
+docker-compose exec php su app -c 'mysql -h db -u laravel -psecret laravel'
+
 ```
