@@ -14,6 +14,7 @@ services:
       - './docker/nginx/40-user-app.sh:/docker-entrypoint.d/40-user-app.sh'
     ports:
       - '55000:80'
+    privileged: false
 
   php:
     build: ./docker/php/
@@ -37,6 +38,7 @@ services:
       - './docker/php/docker-entrypoint.sh:/docker-entrypoint.sh'
       - './docker/php/entrypoint:/docker-entrypoint.d'
       - './docker/php/bash_aliases:/home/app/.bash_aliases'
+    privileged: false
   
   db:
     image: percona/percona-server:8.0
@@ -49,10 +51,12 @@ services:
       - "33061:3306"
     volumes:
       - yt-gaming-db:/var/lib/mysql
+    privileged: false
   
   redis:
     image: 'redis:alpine'
     restart: unless-stopped
+    privileged: false
   
   frontend:
     build: ./frontend/
@@ -61,6 +65,7 @@ services:
       - '.:/app'
       - './frontend/docker-entrypoint.sh:/docker-entrypoint.sh'
       - './frontend/entrypoint:/docker-entrypoint.d'
+    privileged: false
   
   soketi:
     build: ./docker/soketi/
@@ -70,6 +75,7 @@ services:
     ports:
       - '8084:8084'
       - '9601:9601'
+    privileged: false
   
   crawler:
     build: ./crawler/
@@ -78,6 +84,7 @@ services:
       - '.:/app'
       - './crawler/docker-entrypoint.sh:/docker-entrypoint.sh'
       - './crawler/entrypoint:/docker-entrypoint.d'
+    privileged: false
 
 volumes:
   yt-gaming-db:
