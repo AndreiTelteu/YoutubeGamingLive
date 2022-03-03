@@ -46,7 +46,7 @@ services:
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
     ports:
-      - "33061:3306"
+      - "33063:3306"
     volumes:
       - yt-gaming-db:/var/lib/mysql
   

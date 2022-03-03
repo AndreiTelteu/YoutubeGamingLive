@@ -2,7 +2,7 @@
 cd /app;
 
 # dev
-su app -c "/usr/bin/composer install"
+su app -c "/usr/bin/composer install --no-interaction"
 
 # prod
 # /usr/bin/composer install \
