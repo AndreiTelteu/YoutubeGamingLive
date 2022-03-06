@@ -2,18 +2,18 @@ version: '3.1'
 services:
 
   nginx:
-    image: 'nginx:stable'
+    image: nginx:stable
     working_dir: /app
     restart: unless-stopped
     depends_on:
       - php
     volumes:
-      - '.:/app'
-      - './docker/nginx/nginx.conf:/etc/nginx/nginx.conf'
-      - './docker/nginx/vhost.conf:/etc/nginx/conf.d/default.conf'
-      - './docker/nginx/40-user-app.sh:/docker-entrypoint.d/40-user-app.sh'
+      - .:/app
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/vhost.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/40-user-app.sh:/docker-entrypoint.d/40-user-app.sh
     ports:
-      - '55000:80'
+      - 55000:80
     privileged: false
 
   php:
@@ -31,13 +31,20 @@ services:
       DB_PASSWORD: secret
       LOG_CHANNEL: stderr
       REDIS_HOST: redis
+      INTERNAL_API_SIG: BpmjhgMuI9kwcq
+      BROADCAST_DRIVER: pusher
+      PUSHER_HOST: soketi
+      PUSHER_PORT: 8084
+      PUSHER_APP_ID: "ytlive0268"
+      PUSHER_APP_KEY: "Hf9ELp7X6AHaPJ"
+      PUSHER_APP_SECRET: "YIf912xR62gCZ6SngM5u1Vc12EP2"
     volumes:
-      - '.:/app'
-      - './docker/php/php.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
-      - './docker/php/pool.conf:/etc/php/8.1/fpm/pool.d/z-overrides.conf'
-      - './docker/php/docker-entrypoint.sh:/docker-entrypoint.sh'
-      - './docker/php/entrypoint:/docker-entrypoint.d'
-      - './docker/php/bash_aliases:/home/app/.bash_aliases'
+      - .:/app
+      - ./docker/php/php.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini
+      - ./docker/php/pool.conf:/etc/php/8.1/fpm/pool.d/z-overrides.conf
+      - ./docker/php/docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./docker/php/entrypoint:/docker-entrypoint.d
+      - ./docker/php/bash_aliases:/home/app/.bash_aliases
     privileged: false
   
   db:
@@ -48,13 +55,13 @@ services:
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret
     ports:
-      - "33063:3306"
+      - 33063:3306
     volumes:
       - yt-gaming-db:/var/lib/mysql
     privileged: false
   
   redis:
-    image: 'redis:alpine'
+    image: redis:alpine
     restart: unless-stopped
     privileged: false
   
@@ -62,28 +69,41 @@ services:
     build: ./frontend/
     restart: unless-stopped
     volumes:
-      - '.:/app'
-      - './frontend/docker-entrypoint.sh:/docker-entrypoint.sh'
-      - './frontend/entrypoint:/docker-entrypoint.d'
+      - .:/app
+      - ./frontend/docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./frontend/entrypoint:/docker-entrypoint.d
     privileged: false
   
   soketi:
     build: ./docker/soketi/
     restart: unless-stopped
+    environment:
+      PUSHER_HOST: soketi
+      PUSHER_PORT: 8084
+      PUSHER_APP_ID: "ytlive0268"
+      PUSHER_APP_KEY: "Hf9ELp7X6AHaPJ"
+      PUSHER_APP_SECRET: "YIf912xR62gCZ6SngM5u1Vc12EP2"
     volumes:
-      - './docker/soketi/ecosystem.config.js:/app/ecosystem.config.js'
+      - ./docker/soketi/ecosystem.config.js:/app/ecosystem.config.js
     ports:
-      - '8084:8084'
-      - '9601:9601'
+      - 8084:8084
+      - 9601:9601
     privileged: false
   
   crawler:
     build: ./crawler/
     restart: unless-stopped
     volumes:
-      - '.:/app'
-      - './crawler/docker-entrypoint.sh:/docker-entrypoint.sh'
-      - './crawler/entrypoint:/docker-entrypoint.d'
+      - .:/app
+      - ./crawler/docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./crawler/entrypoint:/docker-entrypoint.d
+    environment:
+      DB_HOST: db
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+      APP_URL: http://nginx
+      INTERNAL_API_SIG: BpmjhgMuI9kwcq
     privileged: false
 
 volumes:
@@ -93,4 +113,3 @@ networks:
   default:
     name: dc
     external: true
-

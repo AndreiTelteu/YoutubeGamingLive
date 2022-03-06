@@ -82,6 +82,8 @@ class RefreshSubscriptions implements ShouldQueue
                 $channel->data = [
                     "subscribed" => false,
                 ];
+                $channel->online_streams = [];
+                $channel->last_streams = [];
             }
             $channel->youtube_id = $item->snippet->resourceId->channelId;
             $channel->name = $item->snippet->title;
