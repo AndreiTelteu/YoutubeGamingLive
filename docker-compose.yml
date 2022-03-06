@@ -88,3 +88,9 @@ services:
 
 volumes:
   yt-gaming-db:
+
+networks:
+  default:
+    name: dc
+    external: true
+
