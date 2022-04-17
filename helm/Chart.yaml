@@ -1,0 +1,4 @@
+apiVersion: v1
+description: YoutubeGaming.live web app production env
+name: youtubegaminglive
+version: "1.0.0"

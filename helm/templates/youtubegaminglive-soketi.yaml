@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: youtubegaminglive-soketi
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: youtubegaminglive
+  source:
+    repoURL: https://github.com/AndreiTelteu/youtubegaminglive-soketi.git
+    targetRevision: HEAD
+    path: ./
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: youtubegaminglive
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
