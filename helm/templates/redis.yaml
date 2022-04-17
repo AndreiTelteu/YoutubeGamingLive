@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: youtubegaminglive
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: redis-cluster
+    targetRevision: 6.2.7
+    helm:
+      values: |
+        nameOverride: redis
+        global:
+          storageClass: local-path
+        commonLabels:
+          app: redis
+        persistence:
+          size: 1Gi
+        cluster:
+          nodes: 6
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: youtubegaminglive
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
