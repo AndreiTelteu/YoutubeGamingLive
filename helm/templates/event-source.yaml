@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: youtubegaminglive-webhooks
+  namespace: argo-events
+spec:
+  github:
+    soketi-webhook:
+      owner: "AndreiTelteu"
+      repository: "youtubegaminglive-soketi"
+      active: true
+      contentType: "json"
+      webhook:
+        port: "12000"
+        endpoint: /soketi/github-webhook
+        method: POST
+      events:
+        - "*"
+      webhookSecret:
+        name: event-youtubegaminglive-soketi-github-secret
+        key: secret
+
+---
+
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: event-youtubegaminglive-soketi-github-secret
+  namespace: argo-events
+spec:
+  encryptedData:
+    secret: AgB3EaUscO8CvvIUdfteT60R3t9qQza6ciFfb7qim1ZOqfST4ia9y7jEQ7E62L0R/r2Wo/su3u2Knt6uCJbImhZ5CdY1IGwirz7FnIE0QgtgNg43z9+g7grTusykZ9NiXwhK9Ncd727fwcrSg1XNE6GuHEvgGdMdvL36xTpSiZdgp6RpI6w7MrAPNQj3ucCSjjU6GKgurB+YF3ORcX86yoJlP+OcdZPARI/SueK0vvyDlmBJhYLarPqyvc+LgayMBkANErNzjo8RlpX4OT0k6COOsqzKt1VkK5NND8YDZliCM8K05KPECeud+7gEJowETTu+tHkEiUChJkEaBwbENk4No3dZxoolUTWPRZINAQSyhfWycc6bz/ReTKK6cErX/nu1ODSkpl8ORtlEiYehwOOxZO5h7TtStoERE2FTjZrsMJ1eF4polcnqZlh0Tutkb3XdcryGEwu6SUhw8X/srO/qJwHPFHVf1dG54IJ3W1Nen/SRxs3DKbBOzTLw0GhhZseU6fVm4eBhyisppme4exuKkLhWPwSJBat19wlOT+9GXNQOe5qmFMI/cM1h97rMVCPhnOjw7+iBs/pgrhCUjBPk5dlHSE80/0zN6bOOTuWzmemjXNnKav0ZtD2qb45/vEwo818TH+Zn1QS95OO0rHJS10eih7Q8JlD7xRC+s8lRhT204qKJLMC9NbexMEy7Vqu4HGVNsfnOlyou6t4agfM=
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      name: event-youtubegaminglive-soketi-github-secret
+      namespace: argo-events
