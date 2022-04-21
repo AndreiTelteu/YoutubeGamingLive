@@ -9,7 +9,7 @@ spec:
   project: youtubegaminglive
   source:
     repoURL: https://github.com/AndreiTelteu/youtubegaminglive-soketi.git
-    targetRevision: HEAD
+    targetRevision: dev
     path: ./
   destination:
     server: https://kubernetes.default.svc
