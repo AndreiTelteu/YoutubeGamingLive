@@ -71,6 +71,8 @@ spec:
             pmmserver: {{ randAlphaNum 32 | quote }}
             operator: {{ randAlphaNum 32 | quote }}
             replication: {{ randAlphaNum 32 | quote }}
+        backup:
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: youtubegaminglive
