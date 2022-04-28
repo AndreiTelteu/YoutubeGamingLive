@@ -14,8 +14,10 @@ use App\Http\Controllers\YoutubeController;
 |
 */
 
-Route::get("/", function () {
-    return redirect("/f");
+Route::get("/node", function () {
+    dump(gethostname());
+    dump($_SERVER['SERVER_ADDR']);
+    dd($_SERVER);
 });
 
 Route::get("/youtube/login", [YoutubeController::class, "login"]);

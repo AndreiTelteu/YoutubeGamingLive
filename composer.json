@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.5",
         "onlinedigital/laravel-youtube-api": "dev-master",
         "onlinedigital/pubsubhubbub-php-subscriber": "dev-master",
+        "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/youtube": "^4.1",
         "whichbrowser/parser": "^2.1"
