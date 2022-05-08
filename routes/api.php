@@ -6,6 +6,15 @@ use App\Http\Controllers\ChannelController;
 
 Broadcast::routes(["middleware" => ["auth:api"]]);
 
+Route::get("/node", function () {
+    dump(gethostname());
+    dump($_SERVER['SERVER_ADDR']);
+    dd($_SERVER);
+});
+Route::get("/info", function () {
+    phpinfo();
+});
+
 Route::middleware(["auth:api"])->group(function () {
     Route::prefix("/user")->group(function () {
         Route::get("/", [UserController::class, "get"]);

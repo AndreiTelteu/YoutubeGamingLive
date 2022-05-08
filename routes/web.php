@@ -14,15 +14,6 @@ use App\Http\Controllers\YoutubeController;
 |
 */
 
-Route::get("/node", function () {
-    dump(gethostname());
-    dump($_SERVER['SERVER_ADDR']);
-    dd($_SERVER);
-});
-Route::get("/info", function () {
-    phpinfo();
-});
-
 Route::get("/youtube/login", [YoutubeController::class, "login"]);
 Route::get("/youtube/callback", [YoutubeController::class, "callback"]);
 Route::get("/youtube/webhook", [YoutubeController::class, "webhook"])->name(

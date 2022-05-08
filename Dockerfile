@@ -1,4 +1,4 @@
-FROM phpdockerio/php:8.1-fpm
+FROM phpdockerio/php:8.1-fpm as backend
 WORKDIR "/app"
 
 ENV TERM=linux
@@ -48,6 +48,16 @@ RUN su app -c "/usr/bin/composer install \
     --no-progress \
     --no-scripts \
     --optimize-autoloader";
+
+FROM node:16-bullseye as frontend
+WORKDIR "/app"
+COPY ./frontend/ .
+RUN yarn install && yarn build
+
+FROM backend
+WORKDIR "/app"
+COPY --from=frontend /app/dist ./frontend-dist
+RUN chown -R app:app ./frontend-dist
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD [ "/usr/sbin/php-fpm8.1", "-O" ]
