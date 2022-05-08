@@ -92,12 +92,12 @@ services:
     privileged: false
   
   crawler:
-    build: ./crawler/
+    build: ./docker/crawler/
     restart: unless-stopped
     volumes:
-      - .:/app
-      - ./crawler/docker-entrypoint.sh:/docker-entrypoint.sh
-      - ./crawler/entrypoint:/docker-entrypoint.d
+      - ./crawler:/app
+      - ./docker/crawler/docker-entrypoint.sh:/docker-entrypoint.sh
+      - ./docker/crawler/entrypoint:/docker-entrypoint.d
     environment:
       DB_HOST: db
       DB_DATABASE: laravel

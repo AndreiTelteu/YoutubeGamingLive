@@ -4,4 +4,4 @@ WORKDIR "/app"
 RUN npm install npm pm2 -g
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["su", "node", "-c", "pm2-runtime /app/crawler/ecosystem.config.js"]
+CMD ["su", "node", "-c", "pm2-runtime /app/ecosystem.config.js"]

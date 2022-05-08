@@ -9,11 +9,11 @@ Broadcast::routes(["middleware" => ["auth:api"]]);
 Route::get("/node", function () {
     dump(gethostname());
     dump($_SERVER['SERVER_ADDR']);
-    dd($_SERVER);
+    // dd($_SERVER);
 });
-Route::get("/info", function () {
-    phpinfo();
-});
+// Route::get("/info", function () {
+//     phpinfo();
+// });
 
 Route::middleware(["auth:api"])->group(function () {
     Route::prefix("/user")->group(function () {
