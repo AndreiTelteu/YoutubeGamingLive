@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /app/crawler;
+cd /app;
 su node -c "yarn install"
