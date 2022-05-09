@@ -2,6 +2,7 @@
 import Sidebar from "@/components/Sidebar";
 import Navigation from "@/components/Navigation";
 import Settings from "@/components/Settings";
+import LoginModal from "@/components/LoginModal";
 import socket from "@/services/socket";
 import api from "@/services/api";
 
@@ -11,6 +12,7 @@ export default {
         Navigation,
         Settings,
         Sidebar,
+        LoginModal,
     },
     mounted() {
         if (!socket.connected()) socket.connect();
@@ -52,6 +54,7 @@ export default {
     <v-app :theme="settings.theme">
         <Navigation />
         <Settings />
+        <LoginModal />
         <v-main>
             <Sidebar />
             <router-view v-slot="{ Component, route }">

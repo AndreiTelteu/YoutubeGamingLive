@@ -1,5 +1,4 @@
 <script>
-import popupCenter from "@/utils/popupCenter";
 import emitter from "tiny-emitter/instance";
 
 let loaderTimeout;
@@ -29,16 +28,8 @@ export default {
     },
 
     methods: {
-        loginYoutube() {
-            popupCenter({
-                url: "/youtube/login",
-                title: "Login with Youtube",
-                w: 900,
-                h: 500,
-            });
-            window.YoutubeLoginCallback = (auth) => {
-                this.$store.commit("authUpdate", auth);
-            };
+        loginModal(show = true) {
+            emitter.emit("login-modal", { show });
         },
         openSettings() {
             emitter.emit("settings", { show: true });
@@ -69,7 +60,7 @@ export default {
             class="mr-4 ml-5"
             color="default"
             plain
-            v-on:click="loginYoutube"
+            v-on:click="loginModal(true)"
             v-if="auth.logged == false"
         >
             <v-icon left icon="mdi-account-circle-outline"></v-icon>
