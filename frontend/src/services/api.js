@@ -12,7 +12,8 @@ export default {
     },
 
     request(method, url, data = null, extraOptions = {}) {
-        url = "https://youtubegaming.live/api" + url;
+        // url = "https://youtubegaming.live/api" + url;
+        url = "/api" + url;
         let options = {
             method,
             url,

@@ -2,6 +2,7 @@
 import popupCenter from "@/utils/popupCenter";
 import GoogleSignin from "@/components/GoogleSignin";
 import emitter from "tiny-emitter/instance";
+import api from "@/services/api";
 
 export default {
     name: "LoginModal",
@@ -40,6 +41,17 @@ export default {
             };
         },
         loginManual() {
+            let url = this.url;
+            let channel_id = url.match(/youtube\.com\/c(hannel)?\/([^/?#]+)/i)?.[2];
+            api.post('/youtube/manual-login', {
+                channel_id
+            }).then(response => {
+                if (response.data.logged) {
+                    this.$store.commit("authUpdate", response.data);
+                }
+            }).catch(err => {
+                console.error('manual login catch', err)
+            })
         },
     },
 };

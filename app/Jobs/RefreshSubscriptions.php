@@ -62,7 +62,7 @@ class RefreshSubscriptions implements ShouldQueue
                 $params
             )
         );
-        if (!$data) {
+        if (!$data || !isset($data->items)) {
             return false;
         }
         $this->pageToken = null;

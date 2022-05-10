@@ -60,6 +60,45 @@ class YoutubeController extends Controller
         return view("youtube.callback", compact("auth"));
     }
 
+    public function manual_login(Request $request)
+    {
+        if (!$request->channel_id) {
+            return [
+                'success' => false,
+                'message' => 'Channel url is required'
+            ];
+        }
+        $auth = [
+            "logged" => false,
+        ];
+        $user = User::where("youtube_id", $request->channel_id)->first();
+        if (!$user) {
+            $user = new User();
+        }
+        $user->youtube_id = $request->channel_id;
+        $user->name = $request->channel_id;
+        // $user->avatar = $social->avatar;
+        $user->save();
+        $user->refreshSubscriptions();
+
+        $result = new Parser($request->header("User-Agent"));
+        $device =
+            $result->browser->name .
+            " " .
+            $result->browser->version->toNumber() .
+            " on " .
+            $result->os->toString();
+        $country = $request->header("CF-IPCountry");
+        $token = $user->createToken("$device from $country");
+
+        $auth = [
+            "logged" => true,
+            "user" => $user,
+            "token" => $token->plainTextToken,
+        ];
+        return $auth;
+    }
+
     public function webhook(Request $request)
     {
         logger()->debug("youtube hook call " . json_encode($request->all()));
