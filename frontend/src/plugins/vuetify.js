@@ -1,5 +1,6 @@
 // Styles
 import "@mdi/font/css/materialdesignicons.css";
+import "splitpanes/dist/splitpanes.css";
 import { aliases, mdi } from "vuetify/iconsets/mdi";
 import "vuetify/styles";
 

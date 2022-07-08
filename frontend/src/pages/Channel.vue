@@ -1,10 +1,12 @@
 <script>
 import anchorme from "anchorme";
 import emitter from "tiny-emitter/instance";
+import { Splitpanes, Pane } from "splitpanes";
 import api from "@/services/api";
 
 export default {
     name: "Channel",
+    components: { Splitpanes, Pane },
     data: () => ({
         slug: null,
         loading: true,
@@ -13,6 +15,9 @@ export default {
     }),
 
     computed: {
+        settings() {
+            return this.$store.state.settings;
+        },
         description() {
             let data = this.channel.data?.description || "";
             data = data.replace(/\n/g, "<br />");
@@ -93,6 +98,13 @@ export default {
                 chatSrc: `https://www.youtube.com/live_chat?v=${videoId}&is_popout=1`,
             };
         },
+        resized(panels) {
+            if (typeof panels?.[0]?.size != 'undefined') {
+                let panelPlayerWidth = panels[0].size;
+                if (panelPlayerWidth >= 100) panelPlayerWidth = 99;
+                this.$store.commit("settingsUpdate", { panelPlayerWidth });
+            }
+        },
     },
 };
 </script>
@@ -104,8 +116,8 @@ export default {
             class="channel-player"
             v-if="channel.online && player !== null"
         >
-            <v-row class="channel-row ma-0">
-                <v-col cols="12" md="9" class="channel-video pa-0">
+            <splitpanes class="channel-row ma-0" @resized="resized">
+                <pane class="channel-col channel-video pa-0" :size="settings.panelPlayerWidth">
                     <iframe
                         :src="player.playSrc"
                         title="YouTube video player"
@@ -113,15 +125,15 @@ export default {
                         frameborder="0"
                         allowfullscreen
                     ></iframe>
-                </v-col>
-                <v-col cols="12" md="3" class="channel-chat pa-0">
+                </pane>
+                <pane class="channel-col channel-chat pa-0">
                     <iframe
                         :src="player.chatSrc"
                         title="YouTube live chat"
                         frameborder="0"
                     ></iframe>
-                </v-col>
-            </v-row>
+                </pane>
+            </splitpanes>
             <v-divider />
         </v-col>
 
@@ -194,17 +206,29 @@ export default {
 </template>
 
 <style>
-.channel-row > div {
+.channel-row {
     height: calc(100vh - 48px);
     width: 100%;
-    overflow: hidden;
 }
-.channel-row > div > iframe {
+.channel-col iframe {
     width: 100%;
     height: 100%;
 }
-.channel-row .channel-chat > iframe {
+.channel-row .channel-chat iframe {
     height: calc(100% + 1px);
+}
+.channel-row .splitpanes__splitter {
+    position: relative;
+}
+.channel-row .splitpanes__splitter::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    width: 20px;
+    top: 0;
+    bottom: 0;
+    height: 100%;
 }
 .channel-online-badge {
     border-color: #ff4e45 !important;

@@ -2,6 +2,7 @@ export const settings = {
     state: () => ({
         theme: "dark",
         autoplay: true,
+        panelPlayerWidth: 80,
     }),
 
     mutations: {
