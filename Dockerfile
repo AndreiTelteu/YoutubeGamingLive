@@ -9,6 +9,7 @@ RUN apt-get update; \
     wget -O- https://nginx.org/keys/nginx_signing.key | apt-key add - ; \
     echo "deb https://nginx.org/packages/mainline/ubuntu/ focal nginx" > /etc/apt/sources.list.d/nginx.list ; \
     add-apt-repository ppa:openswoole/ppa -y; \
+    apt-get update; \
     apt-get -y --no-install-recommends install \
         nginx \
         libfcgi-bin \
