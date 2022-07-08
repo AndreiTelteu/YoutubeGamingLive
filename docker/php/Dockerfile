@@ -11,8 +11,10 @@ RUN apt-get update; \
         php8.1-mysql \ 
         php8.1-redis \ 
         php8.1-openswoole \
-        mysql-client; \
+        mysql-client \
+        supervisor; \
     apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*; \
+    mkdir -p /var/log/supervisor
 
 RUN groupadd -r app -g 1000 && useradd -u 1000 -r -g app -m -d /home/app -s /usr/bin/bash -c "App user" app
