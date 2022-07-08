@@ -1,3 +1,5 @@
+import socket from "@/services/socket";
+
 export const auth = {
     state: () => ({
         logged: false,
@@ -13,6 +15,18 @@ export const auth = {
                 delete state.user;
                 delete state.token;
             }
+        },
+    },
+
+    actions: {
+        authLogin(context, data) {
+            context.commit("authUpdate", data);
+            socket.connect(data.token);
+            context.dispatch('getSubscriptions');
+        },
+        authLogout(context, data) {
+            context.commit("authUpdate", data);
+            socket.reset();
         },
     },
 };

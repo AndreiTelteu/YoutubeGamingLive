@@ -37,7 +37,7 @@ export default {
                 h: 500,
             });
             window.YoutubeLoginCallback = (auth) => {
-                this.$store.commit("authUpdate", auth);
+                this.$store.dispatch("authLogin", auth);
                 this.show = false;
             };
         },
@@ -48,7 +48,7 @@ export default {
                 channel_id
             }).then(response => {
                 if (response.data.logged) {
-                    this.$store.commit("authUpdate", response.data);
+                    this.$store.dispatch("authLogin", response.data);
                     this.show = false;
                 }
             }).catch(err => {

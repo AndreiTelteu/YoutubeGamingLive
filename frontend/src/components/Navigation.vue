@@ -36,7 +36,7 @@ export default {
         },
         logout() {
             this.showAccountDropdown = false;
-            this.$store.commit("authUpdate", { logged: false });
+            this.$store.dispatch("authLogout", { logged: false });
         },
     },
 };

@@ -4,7 +4,6 @@ import Navigation from "@/components/Navigation";
 import Settings from "@/components/Settings";
 import LoginModal from "@/components/LoginModal";
 import socket from "@/services/socket";
-import api from "@/services/api";
 
 export default {
     name: "Youtube Gaming Live",
@@ -17,7 +16,7 @@ export default {
     mounted() {
         if (!socket.connected()) socket.connect();
         if (this.auth.logged) {
-            this.getSubscriptions();
+            this.$store.dispatch('getSubscriptions');
         }
     },
     computed: {
@@ -26,25 +25,6 @@ export default {
         },
         settings() {
             return this.$store.state.settings;
-        },
-    },
-    methods: {
-        getSubscriptions() {
-            api.get("/user/subscriptions").then(({ data }) => {
-                let items = {};
-                this.$store.state.subscriptions.items.map((item) => {
-                    items[item.id] = item;
-                });
-                data.map((item, index) => {
-                    let currentData = items[item.id] || {};
-                    data[index] = { ...currentData, ...item };
-                });
-                socket.subscribeChannels(data);
-                this.$store.commit("subscriptionsUpdate", {
-                    items: data,
-                    total: data.length,
-                });
-            });
         },
     },
 };
