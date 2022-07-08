@@ -5,11 +5,11 @@ ENV TERM=linux
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update; \
-    apt-get -y --no-install-recommends install software-properties-common wget git nano; \
-    wget -O- https://nginx.org/keys/nginx_signing.key | apt-key add - ; \
+    apt-get -y --no-install-recommends install software-properties-common wget git nano gnupg2 ca-certificates lsb-release ubuntu-keyring; \
+    curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor - \
+        | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null; \
     echo "deb https://nginx.org/packages/mainline/ubuntu/ focal nginx" > /etc/apt/sources.list.d/nginx.list ; \
     add-apt-repository ppa:openswoole/ppa -y; \
-    apt-get update; \
     apt-get -y --no-install-recommends install \
         nginx \
         libfcgi-bin \
