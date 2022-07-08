@@ -38,6 +38,7 @@ export default {
             });
             window.YoutubeLoginCallback = (auth) => {
                 this.$store.commit("authUpdate", auth);
+                this.show = false;
             };
         },
         loginManual() {
@@ -48,6 +49,7 @@ export default {
             }).then(response => {
                 if (response.data.logged) {
                     this.$store.commit("authUpdate", response.data);
+                    this.show = false;
                 }
             }).catch(err => {
                 console.error('manual login catch', err)

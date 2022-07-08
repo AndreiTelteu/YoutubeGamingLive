@@ -61,14 +61,14 @@ export default {
                             channel.online ? 'is-online' : 'is-offline',
                         ]"
                     >
-                        <v-list-item-icon class="channel-icon">
+                        <v-list-item-avatar class="channel-icon">
                             <v-img
                                 width="30"
                                 :aspect-ratio="1 / 1"
                                 :src="channel.avatar"
                                 class="rounded-circle mr-2"
                             />
-                        </v-list-item-icon>
+                        </v-list-item-avatar>
                         <v-list-item-content
                             class="overflow-hidden channel-text"
                         >
@@ -120,8 +120,8 @@ export default {
     align-items: center;
     align-content: center;
     justify-content: center;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
     min-height: 0px !important;
 }
 .channel-item .channel-icon {

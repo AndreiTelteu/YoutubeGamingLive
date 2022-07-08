@@ -36,6 +36,6 @@ class UserController extends Controller
                 "country",
             ]);
         }
-        return $data;
+        return collect($data)->unique('youtube_id')->values()->all();
     }
 }
