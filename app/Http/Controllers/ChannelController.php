@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ChannelController extends Controller
 {
+    public function get(Request $request)
+    {
+        $channels = Channel::online()->latest("updated_at")->get();
+        return [
+            "success" => true,
+            "channels" => $channels,
+        ];
+    }
+    
     public function find(Request $request, $slug)
     {
         $channel = Channel::where("slug", $slug)->first();

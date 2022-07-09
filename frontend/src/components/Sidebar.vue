@@ -108,7 +108,12 @@ export default {
     </v-card>
 </template>
 
-<style>
+<style scoped>
+.channel-online-badge {
+    border: 1px solid #F44336 !important;
+    background: #c0080f !important;
+    color: white !important;
+}
 .channel-item.is-offline img {
     filter: grayscale(1);
 }

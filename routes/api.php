@@ -28,3 +28,4 @@ Route::prefix("/channel")->group(function () {
     Route::get("/{slug}", [ChannelController::class, "find"]);
     Route::post("/event-updated", [ChannelController::class, "channelUpdated"]);
 });
+Route::get("/channels", [ChannelController::class, "get"]);

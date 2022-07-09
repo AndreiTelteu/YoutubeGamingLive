@@ -40,6 +40,11 @@ class Channel extends Model
     protected $dispatchesEvents = [
         "created" => ChannelCreated::class,
     ];
+    
+    public function scopeOnline($query)
+    {
+        return $query->where('online', true);
+    }
 
     public function getTopicAttribute()
     {
